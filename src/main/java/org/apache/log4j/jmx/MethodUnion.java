@@ -21,7 +21,12 @@ import java.lang.reflect.Method;
 
 class MethodUnion {
 
+  Method readMethod;
+  Method writeMethod;
+
   MethodUnion( Method readMethod, Method writeMethod) {
+    this.readMethod = readMethod;
+    this.writeMethod = writeMethod;
   }
 
 }
