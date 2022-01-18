@@ -44,6 +44,7 @@ public class LoggerDynamicMBean extends AbstractDynamicMBean implements Notifica
     return new NOPLogger(new NOPLoggerRepository(), "");
   }
 
+  // dummy mbean info
   public MBeanInfo getMBeanInfo() {
     return new MBeanInfo( "", "", null, null, null, null);
   }
