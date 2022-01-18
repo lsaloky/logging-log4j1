@@ -17,7 +17,6 @@
 
 package org.apache.log4j.lf5;
 
-import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.spi.Configurator;
 import org.apache.log4j.spi.LoggerRepository;
 
@@ -77,10 +76,6 @@ public class DefaultLF5Configurator implements Configurator {
   public static void configure() throws IOException {
   }
 
-  /**
-   * This is a dummy method that will throw an
-   * <code>IllegalStateException</code> if used.
-   */
   public void doConfigure(URL configURL, LoggerRepository repository) {
   }
 
