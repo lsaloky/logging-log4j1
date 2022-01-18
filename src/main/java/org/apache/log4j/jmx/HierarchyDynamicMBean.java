@@ -21,6 +21,9 @@ package org.apache.log4j.jmx;
 import org.apache.log4j.*;
 
 import org.apache.log4j.spi.HierarchyEventListener;
+import org.apache.log4j.spi.NOPLogger;
+import org.apache.log4j.spi.NOPLoggerRepository;
+
 import javax.management.MBeanNotificationInfo;
 
 import javax.management.ObjectName;
@@ -66,9 +69,9 @@ public class HierarchyDynamicMBean extends AbstractDynamicMBean
 			       java.lang.Object handback) {
   }
 
-  protected
-  Logger getLogger() {
-    return null;
+  // dummy logger
+  protected Logger getLogger() {
+    return new NOPLogger(new NOPLoggerRepository(), "");
   }
 
   public

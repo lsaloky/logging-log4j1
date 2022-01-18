@@ -22,7 +22,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.Appender;
 
 import java.util.Enumeration;
-import java.util.Vector;
 
 /**
  *  No-operation implementation of LoggerRepository which is used when
@@ -65,28 +64,22 @@ public final class NOPLoggerRepository implements LoggerRepository {
      * {@inheritDoc}
      */
     public Level getThreshold() {
-        return Level.OFF;
+        return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    // dummy logger
     public Logger getLogger(final String name) {
-        return new NOPLogger(this, name);
+        return new NOPLogger(new NOPLoggerRepository(), "");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    // dummy logger
     public Logger getLogger(final String name, final LoggerFactory factory) {
-        return new NOPLogger(this, name);
+        return new NOPLogger(new NOPLoggerRepository(), "");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    // dummy logger
     public Logger getRootLogger() {
-        return new NOPLogger(this, "root");
+        return new NOPLogger(new NOPLoggerRepository(), "");
     }
 
     /**
@@ -105,15 +98,13 @@ public final class NOPLoggerRepository implements LoggerRepository {
     /**
      * {@inheritDoc}
      */
-    public Enumeration getCurrentLoggers() {
-        return new Vector().elements();
-    }
+    public Enumeration getCurrentLoggers() { return null; }
 
     /**
      * {@inheritDoc}
      */
     public Enumeration getCurrentCategories() {
-        return getCurrentLoggers();
+        return null;
     }
 
 

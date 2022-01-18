@@ -41,8 +41,7 @@ public final class RootLogger extends Logger {
      logger cannot be retrieved by name.
   */
   public RootLogger(Level level) {
-    super("root");
-    setLevel(level);
+    super("");
   }
 
   /**
@@ -50,7 +49,7 @@ public final class RootLogger extends Logger {
      hierarchy.
   */
   public final Level getChainedLevel() {
-    return level;
+    return null;
   }
 
   /**
@@ -59,12 +58,5 @@ public final class RootLogger extends Logger {
 
      @since 0.8.3 */
   public final void setLevel(Level level) {
-    if (level == null) {
-      LogLog.error(
-        "You have tried to set a null level to root.", new Throwable());
-    } else {
-      this.level = level;
-    }
   }
-
 }

@@ -27,43 +27,20 @@ import org.apache.log4j.spi.LoggingEvent;
   */
 public class NullAppender extends AppenderSkeleton {
 
-  private static NullAppender instance = new NullAppender();
+  public NullAppender() { }
 
-  public NullAppender() {
-  }
+  public void activateOptions() { }
 
-  /** 
-   * There are no options to acticate.
-   * */
-  public void activateOptions() {
-  }
-
-  /**
-   * Whenever you can, use this method to retreive an instance instead
-   * of instantiating a new one with <code>new</code>.
-   * */
   public NullAppender getInstance() {
-    return instance;
+    return new NullAppender();
   }
 
-  public void close() {
-  }
+  public void close() { }
 
-  /**
-   * Does not do anything. 
-   * */
-  public void doAppend(LoggingEvent event) {
-  }
+  public void doAppend(LoggingEvent event) { }
 
-  /**
-   * Does not do anything. 
-   * */
-  protected void append(LoggingEvent event) {
-  }
+  protected void append(LoggingEvent event) { }
 
-  /**
-    * NullAppenders do not need a layout.  
-    * */
   public boolean requiresLayout() {
     return false;
   }

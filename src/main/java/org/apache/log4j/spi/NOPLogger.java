@@ -37,9 +37,6 @@ public final class NOPLogger extends Logger {
      */
     public NOPLogger(NOPLoggerRepository repo, final String name) {
         super(name);
-        this.repository = repo;
-        this.level = Level.OFF;
-        this.parent = this;
     }
 
     /** {@inheritDoc} */

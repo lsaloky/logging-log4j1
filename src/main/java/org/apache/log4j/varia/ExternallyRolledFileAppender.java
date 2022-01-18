@@ -60,7 +60,6 @@ public class ExternallyRolledFileAppender extends RollingFileAppender {
   static final public String OK = "OK";
 
   int port = 0;
-  HUP hup;
 
   /**
      The default constructor does nothing but calls its super-class
@@ -74,102 +73,19 @@ public class ExternallyRolledFileAppender extends RollingFileAppender {
      listening to external roll over messages.
   */
   public
-  void setPort(int port) {
-    this.port = port;
-  }
+  void setPort(int port) { }
 
   /**
      Returns value of the <b>Port</b> option.
    */
   public
   int getPort() {
-    return port;
+    return 0;
   }
 
   /**
      Start listening on the port specified by a preceding call to
      {@link #setPort}.  */
   public
-  void activateOptions() {
-    super.activateOptions();
-    if(port != 0) {
-      if(hup != null) {
-	hup.interrupt();
-      }
-      hup = new HUP(this, port);
-      hup.setDaemon(true);
-      hup.start();
-    }
-  }
+  void activateOptions() { }
 }
-
-
-class HUP extends Thread {
-
-  int port;
-  ExternallyRolledFileAppender er;
-
-  HUP(ExternallyRolledFileAppender er, int port) {
-    this.er = er;
-    this.port = port;
-  }
-
-  public
-  void run() {
-    while(!isInterrupted()) {
-      try {
-	ServerSocket serverSocket = new ServerSocket(port);
-	while(true) {
-	  Socket socket = serverSocket.accept();
-	  LogLog.debug("Connected to client at " + socket.getInetAddress());
-	  new Thread(new HUPNode(socket, er)).start();
-	}
-      }
-      catch(Exception e) {
-	e.printStackTrace();
-      }
-    }
-  }
-}
-
-class HUPNode implements Runnable {
-
-  Socket socket;
-  DataInputStream dis;
-  DataOutputStream dos;
-  ExternallyRolledFileAppender er;
-
-  public
-  HUPNode(Socket socket, ExternallyRolledFileAppender er) {
-    this.socket = socket;
-    this.er = er;
-    try {
-      dis = new DataInputStream(socket.getInputStream());
-      dos = new DataOutputStream(socket.getOutputStream());
-    }
-    catch(Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void run() {
-    try {
-      String line = dis.readUTF();
-      LogLog.debug("Got external roll over signal.");
-      if(ExternallyRolledFileAppender.ROLL_OVER.equals(line)) {
-	synchronized(er) {
-	  er.rollOver();
-	}
-	dos.writeUTF(ExternallyRolledFileAppender.OK);
-      }
-      else {
-	dos.writeUTF("Expecting [RollOver] string.");
-      }
-      dos.close();
-    }
-    catch(Exception e) {
-      LogLog.error("Unexpected exception. Exiting HUPNode.", e);
-    }
-  }
-}
-

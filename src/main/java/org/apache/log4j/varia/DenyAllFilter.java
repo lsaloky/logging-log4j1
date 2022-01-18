@@ -64,9 +64,8 @@ public class DenyAllFilter extends Filter {
      @param event The LoggingEvent to filter.
      @return Always returns {@link Filter#DENY}.
   */
-  public
-  int decide(LoggingEvent event) {
-    return Filter.DENY;
+  public int decide(LoggingEvent event) {
+    return 0;
   }
 }
 

@@ -21,7 +21,6 @@ import  org.apache.log4j.spi.ErrorHandler;
 import  org.apache.log4j.spi.LoggingEvent;
 import  org.apache.log4j.Appender;
 import  org.apache.log4j.Logger;
-import  org.apache.log4j.helpers.LogLog;
 import java.util.Vector;
  
 /**
@@ -53,11 +52,6 @@ public class FallbackErrorHandler implements ErrorHandler {
   */
   public 
   void setLogger(Logger logger) {
-    LogLog.debug("FB: Adding logger [" + logger.getName() + "].");
-    if(loggers == null) {
-      loggers = new Vector();
-    }
-    loggers.addElement(logger);
   }
 
 
@@ -74,7 +68,6 @@ public class FallbackErrorHandler implements ErrorHandler {
      <code>System.err</code>.  */
   public
   void error(String message, Exception e, int errorCode) { 
-    error(message, e, errorCode, null);
   }
 
   /**
@@ -83,21 +76,6 @@ public class FallbackErrorHandler implements ErrorHandler {
    */
   public
   void error(String message, Exception e, int errorCode, LoggingEvent event) {
-    LogLog.debug("FB: The following error reported: " + message, e);
-    LogLog.debug("FB: INITIATING FALLBACK PROCEDURE.");
-    if (loggers != null) {
-    	for(int i = 0; i < loggers.size(); i++) {
-      		Logger l = (Logger) loggers.elementAt(i);
-      		LogLog.debug("FB: Searching for ["+primary.getName()+"] in logger ["
-		   		+l.getName() + "].");
-      		LogLog.debug("FB: Replacing ["+primary.getName()+"] by ["
-		   		+ backup.getName() + "] in logger ["+ l.getName() +"].");
-      		l.removeAppender(primary);
-      		LogLog.debug("FB: Adding appender ["+backup.getName()+"] to logger "
-		   		+  l.getName());
-      		l.addAppender(backup);
-        }
-    }    
   }
 
 
@@ -107,10 +85,6 @@ public class FallbackErrorHandler implements ErrorHandler {
   */
   public 
   void error(String message) {
-    //if(firstTime) {
-    //LogLog.error(message);
-    //firstTime = false;
-    //}
   }
   
   /**
@@ -118,8 +92,6 @@ public class FallbackErrorHandler implements ErrorHandler {
    */
   public
   void setAppender(Appender primary) {
-    LogLog.debug("FB: Setting primary appender to [" + primary.getName() + "].");
-    this.primary = primary;
   }
 
   /**
@@ -127,8 +99,5 @@ public class FallbackErrorHandler implements ErrorHandler {
    */
   public
   void setBackupAppender(Appender backup) {
-    LogLog.debug("FB: Setting backup appender to [" + backup.getName() + "].");
-    this.backup = backup;
   }
-  
 }

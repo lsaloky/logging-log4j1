@@ -51,22 +51,19 @@ public class LevelMatchFilter extends Filter {
  
   public
   void setLevelToMatch(String level) {
-    levelToMatch = OptionConverter.toLevel(level, null);
   }
   
   public
   String getLevelToMatch() {
-    return levelToMatch == null ? null : levelToMatch.toString();
+    return "";
   }
   
   public
-  void setAcceptOnMatch(boolean acceptOnMatch) {
-    this.acceptOnMatch = acceptOnMatch;
-  }
+  void setAcceptOnMatch(boolean acceptOnMatch) { }
   
   public
   boolean getAcceptOnMatch() {
-    return acceptOnMatch;
+    return false;
   }
   
 
@@ -82,23 +79,5 @@ public class LevelMatchFilter extends Filter {
 
   */
   public
-  int decide(LoggingEvent event) {
-    if(this.levelToMatch == null) {
-      return Filter.NEUTRAL;
-    }
-    
-    boolean matchOccured = false;
-    if(this.levelToMatch.equals(event.getLevel())) {
-      matchOccured = true;
-    } 
-
-    if(matchOccured) {  
-      if(this.acceptOnMatch)
-	  return Filter.ACCEPT;
-      else
-	  return Filter.DENY;
-    } else {
-      return Filter.NEUTRAL;
-    }
-  }
+  int decide(LoggingEvent event) { return 0; }
 }

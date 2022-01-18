@@ -33,8 +33,7 @@ final public class RootCategory extends Logger {
   */
   public
   RootCategory(Level level) {
-    super("root");
-    setLevel(level);
+    super("");
   }
 
   
@@ -45,7 +44,7 @@ final public class RootCategory extends Logger {
   final
   public 
   Level getChainedLevel() {
-    return level;
+    return null;
   }
 
   /**
@@ -56,20 +55,11 @@ final public class RootCategory extends Logger {
   final  
   public
   void setLevel(Level level) {
-    if(level == null) {
-      LogLog.error("You have tried to set a null level to root.",
-		   new Throwable());
-    }
-    else {
-      this.level = level;
-    }
   }
 
   final  
   public
-  void setPriority(Level level) {
-    setLevel(level);
-  }
+  void setPriority(Level level) { }
 
   
 }

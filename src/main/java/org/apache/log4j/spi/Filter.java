@@ -111,15 +111,13 @@ public abstract class Filter implements OptionHandler {
   /**
    * Set the next filter pointer.
    */ 
-  public void setNext(Filter next) {
-    this.next = next;
-  }
+  public void setNext(Filter next) { }
  
   /**
    * Return the pointer to the next filter;
    */ 
   public Filter getNext() {
-        return next;
+        return null;
   }
 
 }
