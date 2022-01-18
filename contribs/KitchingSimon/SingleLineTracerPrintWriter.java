@@ -37,31 +37,9 @@ package org.apache.log4j.helpers;
 */
 public class SingleLineTracerPrintWriter extends TracerPrintWriter {
 
-  static String TAB = "    ";
+  public SingleLineTracerPrintWriter(QuietWriter qWriter) { }
 
-  public SingleLineTracerPrintWriter(QuietWriter qWriter) {
-    super(qWriter);
-  }
+  public void println(Object o) { }
 
-  /**
-     Make the first Exception line print properly by omitting the \n at the
-     end.
-  */
-  public
-   void println(Object o) {
-    this.qWriter.write(o.toString());
-  }
-
-  // Note: the Char[] form is handled by the TracerPrinterWriter super
-  // class
-
-  /**
-     Remove the first character from the string (usually a TAB) and do
-     not print "\n"
-  */   
-  public
-  void println(String s) {
-      // remove '^I' and replace it with 4 spaces
-      this.qWriter.write(TAB+s.substring(1));
-  }
+  public void println(String s) { }
 }

@@ -34,6 +34,7 @@ package org.apache.log4j;
 import org.apache.log4j.spi.AppenderAttachable;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.LoggerRepository;
+import org.apache.log4j.varia.NullAppender;
 
 import java.util.Enumeration;
 import java.util.ResourceBundle;
@@ -74,7 +75,8 @@ public class Category implements AppenderAttachable {
 
   public Enumeration getAllAppenders() { return null; }
 
-  public Appender getAppender(String name) { return null; }
+  // dummy log appender
+  public Appender getAppender(String name) { return new NullAppender(); }
 
   public Level getEffectiveLevel() { return null; }
 

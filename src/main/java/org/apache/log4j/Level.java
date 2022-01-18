@@ -99,8 +99,7 @@ public class Level extends Priority implements Serializable {
   /**
      Instantiate a Level object.
    */
-  protected
-  Level(int level, String levelStr, int syslogEquivalent) {
+  protected Level(int level, String levelStr, int syslogEquivalent) {
     super(level, levelStr, syslogEquivalent);
   }
 
@@ -109,9 +108,7 @@ public class Level extends Priority implements Serializable {
      Convert the string passed as argument to a level. If the
      conversion fails, then this method returns {@link #DEBUG}. 
   */
-  public
-  static
-  Level toLevel(String sArg) {
+  public static Level toLevel(String sArg) {
     return (Level) toLevel(sArg, Level.DEBUG);
   }
 
@@ -120,9 +117,7 @@ public class Level extends Priority implements Serializable {
     conversion fails, then this method returns {@link #DEBUG}.
 
   */
-  public
-  static
-  Level toLevel(int val) {
+  public static Level toLevel(int val) {
     return (Level) toLevel(val, Level.DEBUG);
   }
 
@@ -130,9 +125,7 @@ public class Level extends Priority implements Serializable {
     Convert an integer passed as argument to a level. If the
     conversion fails, then this method returns the specified default.
   */
-  public
-  static
-  Level toLevel(int val, Level defaultLevel) {
+  public static Level toLevel(int val, Level defaultLevel) {
     switch(val) {
     case ALL_INT: return ALL;
     case DEBUG_INT: return Level.DEBUG;
@@ -151,9 +144,7 @@ public class Level extends Priority implements Serializable {
      conversion fails, then this method returns the value of
      <code>defaultLevel</code>.  
   */
-  public
-  static
-  Level toLevel(String sArg, Level defaultLevel) {                  
+  public static Level toLevel(String sArg, Level defaultLevel) {                  
     if(sArg == null)
        return defaultLevel;
     
@@ -174,51 +165,9 @@ public class Level extends Priority implements Serializable {
     return defaultLevel;
   }
 
-    /**
-     * Custom deserialization of Level.
-     * @param s serialization stream.
-     * @throws IOException if IO exception.
-     * @throws ClassNotFoundException if class not found.
-     */
-    private void readObject(final ObjectInputStream s) throws IOException, ClassNotFoundException {
-      s.defaultReadObject();
-      level = s.readInt();
-      syslogEquivalent = s.readInt();
-      levelStr = s.readUTF();
-      if (levelStr == null) {
-          levelStr = "";
-      }
-    }
+  private void readObject(final ObjectInputStream s) throws IOException, ClassNotFoundException {  }
 
-    /**
-     * Serialize level.
-     * @param s serialization stream.
-     * @throws IOException if exception during serialization.
-     */
-    private void writeObject(final ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        s.writeInt(level);
-        s.writeInt(syslogEquivalent);
-        s.writeUTF(levelStr);
-    }
+  private void writeObject(final ObjectOutputStream s) throws IOException { }
 
-    /**
-     * Resolved deserialized level to one of the stock instances.
-     * May be overriden in classes derived from Level.
-     * @return resolved object.
-     * @throws ObjectStreamException if exception during resolution.
-     */
-    private Object readResolve() throws ObjectStreamException {
-        //
-        //  if the deserizalized object is exactly an instance of Level
-        //
-        if (getClass() == Level.class) {
-            return toLevel(level);
-        }
-        //
-        //   extension of Level can't substitute stock item
-        //
-        return this;
-    }
-
+  private Object readResolve() throws ObjectStreamException { return this; }
 }

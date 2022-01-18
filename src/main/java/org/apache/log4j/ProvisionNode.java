@@ -24,6 +24,5 @@ class ProvisionNode extends Vector {
 
   ProvisionNode(Logger logger) {
     super();
-    this.addElement(logger);
   }
 }

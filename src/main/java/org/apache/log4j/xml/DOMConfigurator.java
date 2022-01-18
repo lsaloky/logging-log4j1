@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.config.PropertySetter;
 import org.apache.log4j.spi.Configurator;
 import org.apache.log4j.spi.LoggerRepository;
+import org.apache.log4j.varia.NullAppender;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -38,13 +39,15 @@ public class DOMConfigurator implements Configurator {
 
   protected Appender findAppenderByName(Document doc, String appenderName) { return null; }
   
-  protected Appender findAppenderByReference(Element appenderRef) { return null; }
+  // dummy log appender
+  protected Appender findAppenderByReference(Element appenderRef) { return new NullAppender(); }
 
   private static void parseUnrecognizedElement(final Object instance, final Element element, final Properties props) throws Exception { }
 
   private static void quietParseUnrecognizedElement(final Object instance, final Element element, final Properties props) { }
 
-  protected Appender parseAppender (Element appenderElement) { return null; }
+  // dummy log appender
+  protected Appender parseAppender (Element appenderElement) { return new NullAppender(); }
 
   protected void parseErrorHandler(Element element, Appender appender) { }
   
