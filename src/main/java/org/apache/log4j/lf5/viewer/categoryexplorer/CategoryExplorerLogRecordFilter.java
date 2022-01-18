@@ -55,19 +55,10 @@ public class CategoryExplorerLogRecordFilter implements LogRecordFilter {
   //   Public Methods:
   //--------------------------------------------------------------------------
 
-  /**
-   * @return true if the CategoryExplorer model specified at construction
-   * is accepting the category of the specified LogRecord.  Has a side-effect
-   * of adding the CategoryPath of the LogRecord to the explorer model
-   * if the CategoryPath is new.
-   */
   public boolean passes(LogRecord record) {
     return false;
   }
 
-  /**
-   * Resets the counters for the contained CategoryNodes to zero.
-   */
   public void reset() {
   }
 

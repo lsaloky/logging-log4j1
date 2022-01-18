@@ -16,34 +16,11 @@
  */
 package org.apache.log4j.chainsaw;
 
-import java.io.EOFException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
 
-/**
- * A daemon thread the processes connections from a
- * <code>org.apache.log4j.net.SocketAppender.html</code>.
- *
- * @author <a href="mailto:oliver@puppycrawl.com">Oliver Burn</a>
- */
 class LoggingReceiver extends Thread {
     
-    /**
-     * Creates a new <code>LoggingReceiver</code> instance.
-     *
-     * @param aModel model to place put received into
-     * @param aPort port to listen on
-     * @throws IOException if an error occurs
-     */
-    LoggingReceiver(MyTableModel aModel, int aPort) throws IOException {
-    }
+    LoggingReceiver(MyTableModel aModel, int aPort) throws IOException { }
 
-    /** Listens for client connections **/
-    public void run() {
-    }
+    public void run() { }
 }

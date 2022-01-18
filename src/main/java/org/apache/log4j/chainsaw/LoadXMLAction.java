@@ -16,61 +16,18 @@
  */
 package org.apache.log4j.chainsaw;
 
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import javax.swing.AbstractAction;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
-import org.apache.log4j.Logger;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
-/**
- * Encapsulates the action to load an XML file.
- *
- * @author <a href="mailto:oliver@puppycrawl.com">Oliver Burn</a>
- * @version 1.0
- */
-class LoadXMLAction
-    extends AbstractAction
-{
-    /**
-     * Creates a new <code>LoadXMLAction</code> instance.
-     *
-     * @param aParent the parent frame
-     * @param aModel the model to add events to
-     * @exception SAXException if an error occurs
-     * @throws ParserConfigurationException if an error occurs
-     */
-    LoadXMLAction(JFrame aParent, MyTableModel aModel)
-        throws SAXException, ParserConfigurationException
-    {
-    }
+import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 
-    /**
-     * Prompts the user for a file to load events from.
-     * @param aIgnore an <code>ActionEvent</code> value
-     */
-    public void actionPerformed(ActionEvent aIgnore) {
-    }
+class LoadXMLAction extends AbstractAction {
+    
+    LoadXMLAction(JFrame aParent, MyTableModel aModel) throws SAXException, ParserConfigurationException { }
 
-    /**
-     * Loads the contents of file into the model
-     *
-     * @param aFile the file to extract events from
-     * @return the number of events loaded
-     * @throws SAXException if an error occurs
-     * @throws IOException if an error occurs
-     */
-    private int loadFile(String aFile)
-        throws SAXException, IOException
-    {
-        return 0;
-    }
+    public void actionPerformed(ActionEvent aIgnore) { }
+
+    private int loadFile(String aFile) throws SAXException, IOException { return 0; }
 }

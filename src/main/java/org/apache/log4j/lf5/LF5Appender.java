@@ -105,19 +105,6 @@ public class LF5Appender extends AppenderSkeleton {
     return false;
   }
 
-  /**
-   * This method is used to set the property that controls whether
-   * the <code>LogBrokerMonitor</code> is hidden or closed when a user
-   * exits
-   * the monitor. By default, the <code>LogBrokerMonitor</code> will hide
-   * itself when the log window is exited, and the swing thread will
-   * continue to run in the background. If this property is
-   * set to true, the <code>LogBrokerMonitor</code> will call System.exit(0)
-   * and will shut down swing thread and the virtual machine.
-   *
-   * @param callSystemExitOnClose A boolean value indicating whether
-   * to call System.exit(0) when closing the log window.
-   */
   public void setCallSystemExitOnClose(boolean callSystemExitOnClose) {
   }
 
