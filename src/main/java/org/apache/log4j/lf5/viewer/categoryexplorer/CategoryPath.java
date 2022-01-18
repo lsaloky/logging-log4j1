@@ -55,20 +55,6 @@ public class CategoryPath {
    * Construct a CategoryPath.  If the category is null, it defaults to "Debug".
    */
   public CategoryPath(String category) {
-    String processedCategory = category;
-
-    if (processedCategory == null) {
-      processedCategory = "Debug";
-    }
-
-    processedCategory.replace('/', '.');
-    processedCategory = processedCategory.replace('\\', '.');
-
-    StringTokenizer st = new StringTokenizer(processedCategory, ".");
-    while (st.hasMoreTokens()) {
-      String element = st.nextToken();
-      addCategoryElement(new CategoryElement(element));
-    }
   }
 
   //--------------------------------------------------------------------------
@@ -79,19 +65,11 @@ public class CategoryPath {
    * returns the number of CategoryElements.
    */
   public int size() {
-    int count = _categoryElements.size();
-
-    return (count);
+    return 0;
   }
 
   public boolean isEmpty() {
-    boolean empty = false;
-
-    if (_categoryElements.size() == 0) {
-      empty = true;
-    }
-
-    return (empty);
+    return true;
   }
 
 
@@ -99,47 +77,24 @@ public class CategoryPath {
    * Removes all categoryElements.
    */
   public void removeAllCategoryElements() {
-    _categoryElements.clear();
   }
 
   /**
    * Adds the specified categoryElement to the end of the categoryElement set.
    */
   public void addCategoryElement(CategoryElement categoryElement) {
-    _categoryElements.addLast(categoryElement);
   }
 
   /**
    * Returns the CategoryElement at the specified index.
    */
   public CategoryElement categoryElementAt(int index) {
-    return ((CategoryElement) _categoryElements.get(index));
+    return null;
   }
 
 
   public String toString() {
-    StringBuffer out = new StringBuffer(100);
-
-    out.append("\n");
-    out.append("===========================\n");
-    out.append("CategoryPath:                   \n");
-    out.append("---------------------------\n");
-
-    out.append("\nCategoryPath:\n\t");
-
-    if (this.size() > 0) {
-      for (int i = 0; i < this.size(); i++) {
-        out.append(this.categoryElementAt(i).toString());
-        out.append("\n\t");
-      }
-    } else {
-      out.append("<<NONE>>");
-    }
-
-    out.append("\n");
-    out.append("===========================\n");
-
-    return (out.toString());
+    return "";
   }
 
   //--------------------------------------------------------------------------

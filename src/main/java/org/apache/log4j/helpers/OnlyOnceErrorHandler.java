@@ -37,13 +37,6 @@ import  org.apache.log4j.Appender;
    @since 0.9.0 */
 public class OnlyOnceErrorHandler implements ErrorHandler {
 
-
-  final String WARN_PREFIX = "log4j warning: ";
-  final String ERROR_PREFIX = "log4j error: ";
-
-  boolean firstTime = true;
-
-
   /**
      Does not do anything.
    */
@@ -65,7 +58,7 @@ public class OnlyOnceErrorHandler implements ErrorHandler {
      <code>System.err</code>.  */
   public
   void error(String message, Exception e, int errorCode) { 
-    error(message, e, errorCode, null);
+    
   }
 
   /**
@@ -74,10 +67,6 @@ public class OnlyOnceErrorHandler implements ErrorHandler {
    */
   public
   void error(String message, Exception e, int errorCode, LoggingEvent event) {
-    if(firstTime) {
-      LogLog.error(message, e);
-      firstTime = false;
-    }
   }
 
 
@@ -87,10 +76,6 @@ public class OnlyOnceErrorHandler implements ErrorHandler {
   */
   public 
   void error(String message) {
-    if(firstTime) {
-      LogLog.error(message);
-      firstTime = false;
-    }
   }
   
   /**

@@ -61,15 +61,6 @@ public abstract class LogRecord implements java.io.Serializable {
 
   public LogRecord() {
     super();
-
-    _millis = System.currentTimeMillis();
-    _category = "Debug";
-    _message = "";
-    _level = LogLevel.INFO;
-    _sequenceNumber = getNextId();
-    _thread = Thread.currentThread().toString();
-    _ndc = "";
-    _location = "";
   }
 
   //--------------------------------------------------------------------------
@@ -84,7 +75,7 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see LogLevel
    */
   public LogLevel getLevel() {
-    return (_level);
+    return null;
   }
 
   /**
@@ -95,7 +86,6 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see LogLevel
    */
   public void setLevel(LogLevel level) {
-    _level = level;
   }
 
   /**
@@ -108,19 +98,14 @@ public abstract class LogRecord implements java.io.Serializable {
    * @return true if getThrown().toString() is a non-empty string.
    */
   public boolean hasThrown() {
-    Throwable thrown = getThrown();
-    if (thrown == null) {
-      return false;
-    }
-    String thrownString = thrown.toString();
-    return thrownString != null && thrownString.trim().length() != 0;
+    return false;
   }
 
   /**
    * @return true if isSevereLevel() or hasThrown() returns true.
    */
   public boolean isFatal() {
-    return isSevereLevel() || hasThrown();
+    return false;
   }
 
   /**
@@ -131,7 +116,7 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #setCategory(String)
    */
   public String getCategory() {
-    return (_category);
+    return "";
   }
 
   /**
@@ -163,7 +148,7 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #setMessage(String)
    */
   public String getMessage() {
-    return (_message);
+    return "";
   }
 
   /**
@@ -173,7 +158,6 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #getMessage()
    */
   public void setMessage(String message) {
-    _message = message;
   }
 
   /**
@@ -185,7 +169,7 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #setSequenceNumber(long)
    */
   public long getSequenceNumber() {
-    return (_sequenceNumber);
+    return 0;
   }
 
   /**
@@ -197,7 +181,6 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #getSequenceNumber()
    */
   public void setSequenceNumber(long number) {
-    _sequenceNumber = number;
   }
 
   /**
@@ -209,7 +192,7 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #setMillis(long)
    */
   public long getMillis() {
-    return _millis;
+    return 0;
   }
 
   /**
@@ -220,7 +203,6 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #getMillis()
    */
   public void setMillis(long millis) {
-    _millis = millis;
   }
 
   /**
@@ -233,7 +215,7 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #setThreadDescription(String)
    */
   public String getThreadDescription() {
-    return (_thread);
+    return "";
   }
 
   /**
@@ -245,8 +227,7 @@ public abstract class LogRecord implements java.io.Serializable {
    * @param threadDescription The description of the thread for this record.
    * @see #getThreadDescription()
    */
-  public void setThreadDescription(String threadDescription) {
-    _thread = threadDescription;
+  public void setThreadDescription(String threadDescription)  {
   }
 
   /**
@@ -267,7 +248,7 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #getThrown()
    */
   public String getThrownStackTrace() {
-    return (_thrownStackTrace);
+    return "";
   }
 
   /**
@@ -277,7 +258,6 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #getThrownStackTrace()
    */
   public void setThrownStackTrace(String trace) {
-    _thrownStackTrace = trace;
   }
 
   /**
@@ -288,7 +268,7 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #getThrownStackTrace()
    */
   public Throwable getThrown() {
-    return (_thrown);
+    return null;
   }
 
   /**
@@ -301,32 +281,13 @@ public abstract class LogRecord implements java.io.Serializable {
    * @see #getThrownStackTrace()
    */
   public void setThrown(Throwable thrown) {
-    if (thrown == null) {
-      return;
-    }
-    _thrown = thrown;
-    StringWriter sw = new StringWriter();
-    PrintWriter out = new PrintWriter(sw);
-    thrown.printStackTrace(out);
-    out.flush();
-    _thrownStackTrace = sw.toString();
-    try {
-      out.close();
-      sw.close();
-    } catch (IOException e) {
-      // Do nothing, this should not happen as it is StringWriter.
-    }
-    out = null;
-    sw = null;
   }
 
   /**
    * Return a String representation of this LogRecord.
    */
   public String toString() {
-    StringBuffer buf = new StringBuffer();
-    buf.append("LogRecord: [" + _level + ", " + _message + "]");
-    return (buf.toString());
+    return "";
   }
 
   /**
@@ -335,7 +296,7 @@ public abstract class LogRecord implements java.io.Serializable {
    * @return The string representing the NDC.
    */
   public String getNDC() {
-    return _ndc;
+    return "";
   }
 
   /**
@@ -344,7 +305,6 @@ public abstract class LogRecord implements java.io.Serializable {
    * @param ndc A string representing the NDC.
    */
   public void setNDC(String ndc) {
-    _ndc = ndc;
   }
 
   /**
@@ -353,7 +313,7 @@ public abstract class LogRecord implements java.io.Serializable {
    * @return The string containing the location information.
    */
   public String getLocation() {
-    return _location;
+    return "";
   }
 
   /**
@@ -362,24 +322,21 @@ public abstract class LogRecord implements java.io.Serializable {
    * @param location A string containing location information.
    */
   public void setLocation(String location) {
-    _location = location;
   }
 
   /**
    * Resets that sequence number to 0.
    *
    */
-  public static synchronized void resetSequenceNumber() {
-    _seqCount = 0;
+  public static void resetSequenceNumber() {
   }
 
   //--------------------------------------------------------------------------
   //   Protected Methods:
   //--------------------------------------------------------------------------
 
-  protected static synchronized long getNextId() {
-    _seqCount++;
-    return _seqCount;
+  protected static long getNextId() {
+    return 0;
   }
   //--------------------------------------------------------------------------
   //   Private Methods:

@@ -75,18 +75,6 @@ public class DefaultLF5Configurator implements Configurator {
    * @throws java.io.IOException
    */
   public static void configure() throws IOException {
-    String resource =
-        "/org/apache/log4j/lf5/config/defaultconfig.properties";
-    URL configFileResource =
-        DefaultLF5Configurator.class.getResource(resource);
-
-    if (configFileResource != null) {
-      PropertyConfigurator.configure(configFileResource);
-    } else {
-      throw new IOException("Error: Unable to open the resource" +
-          resource);
-    }
-
   }
 
   /**
@@ -94,8 +82,6 @@ public class DefaultLF5Configurator implements Configurator {
    * <code>IllegalStateException</code> if used.
    */
   public void doConfigure(URL configURL, LoggerRepository repository) {
-    throw new IllegalStateException("This class should NOT be" +
-        " instantiated!");
   }
 
   //--------------------------------------------------------------------------

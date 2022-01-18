@@ -47,27 +47,7 @@ public class LogFactor5ErrorDialog extends LogFactor5Dialog {
   //   Constructors:
   //--------------------------------------------------------------------------
   public LogFactor5ErrorDialog(JFrame jframe, String message) {
-    super(jframe, "Error", true);
-
-    JButton ok = new JButton("Ok");
-    ok.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        hide();
-      }
-    });
-
-    JPanel bottom = new JPanel();
-    bottom.setLayout(new FlowLayout());
-    bottom.add(ok);
-
-    JPanel main = new JPanel();
-    main.setLayout(new GridBagLayout());
-    wrapStringOnPanel(message, main);
-
-    getContentPane().add(main, BorderLayout.CENTER);
-    getContentPane().add(bottom, BorderLayout.SOUTH);
-    show();
-
+    super(jframe, "", true);
   }
   //--------------------------------------------------------------------------
   //   Public Methods:

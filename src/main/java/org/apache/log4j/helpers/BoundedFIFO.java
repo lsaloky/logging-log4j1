@@ -41,12 +41,6 @@ public class BoundedFIFO {
    */
   public
   BoundedFIFO(int maxSize) {
-   if(maxSize < 1) {
-      throw new IllegalArgumentException("The maxSize argument ("+maxSize+
-			    ") is not a positive integer.");
-    }
-    this.maxSize = maxSize;
-    buf = new LoggingEvent[maxSize];
   }
   
   /**
@@ -54,17 +48,7 @@ public class BoundedFIFO {
      there are no elements in the buffer.  */
   public
   LoggingEvent get() {
-    if(numElements == 0) 
-      return null;
-    
-    LoggingEvent r = buf[first];
-    buf[first] = null; // help garbage collection
-
-    if(++first == maxSize) {
-	first = 0;
-    }
-    numElements--;    
-    return r;    
+    return null;
   }
 
   /**
@@ -73,13 +57,6 @@ public class BoundedFIFO {
      responsability to make sure that the buffer has free space.  */
   public 
   void put(LoggingEvent o) {
-    if(numElements != maxSize) {      
-      buf[next] = o;    
-      if(++next == maxSize) {
-	next = 0;
-      }
-      numElements++;
-    }
   }
 
   /**
@@ -87,7 +64,7 @@ public class BoundedFIFO {
    */
   public 
   int getMaxSize() {
-    return maxSize;
+      return maxSize;
   }
 
   /**
@@ -95,7 +72,7 @@ public class BoundedFIFO {
      the number of elements in the buffer equals the buffer size. */
   public 
   boolean isFull() {
-    return numElements == maxSize;
+    return false;
   }
 
   /**
@@ -105,7 +82,7 @@ public class BoundedFIFO {
   */
   public
   int length() {
-    return numElements;
+    return 0;
   } 
 
 
@@ -123,40 +100,7 @@ public class BoundedFIFO {
   synchronized
   public 
   void resize(int newSize) {
-    if(newSize == maxSize) 
-      return;
-
-
-   LoggingEvent[] tmp = new LoggingEvent[newSize];
-
-   // we should not copy beyond the buf array
-   int len1 = maxSize - first;
-
-   // we should not copy beyond the tmp array
-   len1 = min(len1, newSize);
-
-   // er.. how much do we actually need to copy?
-   // We should not copy more than the actual number of elements.
-   len1 = min(len1, numElements);
-
-   // Copy from buf starting a first, to tmp, starting at position 0, len1 elements.
-   System.arraycopy(buf, first, tmp, 0, len1);
-   
-   // Are there any uncopied elements and is there still space in the new array?
-   int len2 = 0;
-   if((len1 < numElements) && (len1 < newSize)) {
-     len2 = numElements - len1;
-     len2 = min(len2, newSize - len1);
-     System.arraycopy(buf, 0, tmp, len1, len2);
-   }
-   
-   this.buf = tmp;
-   this.maxSize = newSize;    
-   this.first=0;   
-   this.numElements = len1+len2;
-   this.next = this.numElements;
-   if(this.next == this.maxSize) // this should never happen, but again, it just might.
-     this.next = 0;
+    return;
   }
 
   
@@ -166,7 +110,7 @@ public class BoundedFIFO {
      {@link #put} operation completed.  */
   public
   boolean wasEmpty() {
-    return numElements == 1;
+    return false;
   }
 
   /**
@@ -175,7 +119,7 @@ public class BoundedFIFO {
       <code>false</code> otherwise. */
   public
   boolean wasFull() {
-    return (numElements+1 == maxSize);
+    return false;
   }
 
 }

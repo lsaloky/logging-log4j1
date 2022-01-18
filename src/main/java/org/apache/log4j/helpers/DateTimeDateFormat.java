@@ -39,13 +39,11 @@ public class DateTimeDateFormat extends AbsoluteTimeDateFormat {
   public
   DateTimeDateFormat() {
     super();
-    shortMonths = new DateFormatSymbols().getShortMonths();
   }
 
   public
   DateTimeDateFormat(TimeZone timeZone) {
     this();
-    setCalendar(Calendar.getInstance(timeZone));
   }
 
   /**
@@ -57,22 +55,7 @@ public class DateTimeDateFormat extends AbsoluteTimeDateFormat {
   public
   StringBuffer format(Date date, StringBuffer sbuf,
 		      FieldPosition fieldPosition) {
-
-    calendar.setTime(date);
-
-    int day = calendar.get(Calendar.DAY_OF_MONTH);
-    if(day < 10)
-      sbuf.append('0');
-    sbuf.append(day);
-    sbuf.append(' ');
-    sbuf.append(shortMonths[calendar.get(Calendar.MONTH)]);
-    sbuf.append(' ');
-
-    int year =  calendar.get(Calendar.YEAR);
-    sbuf.append(year);
-    sbuf.append(' ');
-
-    return super.format(date, sbuf, fieldPosition);
+    return null;
   }
 
   /**

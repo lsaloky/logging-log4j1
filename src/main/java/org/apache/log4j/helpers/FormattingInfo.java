@@ -33,13 +33,9 @@ public class FormattingInfo {
   boolean leftAlign = false;
 
   void reset() {
-    min = -1;
-    max = 0x7FFFFFFF;
-    leftAlign = false;      
   }
 
   void dump() {
-    LogLog.debug("min="+min+", max="+max+", leftAlign="+leftAlign);
   }
 }
  

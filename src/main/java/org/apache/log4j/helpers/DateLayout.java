@@ -89,11 +89,6 @@ abstract public class DateLayout extends Layout {
   */
   public
   void setOption(String option, String value) {
-    if(option.equalsIgnoreCase(DATE_FORMAT_OPTION)) {
-      dateFormatOption = value.toUpperCase();
-    } else if(option.equalsIgnoreCase(TIMEZONE_OPTION)) {
-      timeZoneID = value;
-    }
   }
   
 
@@ -104,10 +99,6 @@ abstract public class DateLayout extends Layout {
    */
   public
   void setDateFormat(String dateFormat) {
-    if (dateFormat != null) {
-        dateFormatOption = dateFormat;
-    }
-    setDateFormat(dateFormatOption, TimeZone.getDefault());
   }
 
   /**
@@ -137,19 +128,10 @@ abstract public class DateLayout extends Layout {
   
   public
   void activateOptions() {
-    setDateFormat(dateFormatOption);
-    if(timeZoneID != null && dateFormat != null) {
-      dateFormat.setTimeZone(TimeZone.getTimeZone(timeZoneID));
-    }
   }
 
   public
   void dateFormat(StringBuffer buf, LoggingEvent event) {
-    if(dateFormat != null) {
-      date.setTime(event.timeStamp);
-      dateFormat.format(date, buf, this.pos);
-      buf.append(' ');
-    }
   }
 
   /**
@@ -158,8 +140,6 @@ abstract public class DateLayout extends Layout {
    */
   public
   void setDateFormat(DateFormat dateFormat, TimeZone timeZone) {
-    this.dateFormat = dateFormat;    
-    this.dateFormat.setTimeZone(timeZone);
   }
   
   /**
@@ -178,27 +158,5 @@ abstract public class DateLayout extends Layout {
   */
   public
   void setDateFormat(String dateFormatType, TimeZone timeZone) {
-    if(dateFormatType == null) {
-      this.dateFormat = null;
-      return;
-    } 
-
-    if(dateFormatType.equalsIgnoreCase(NULL_DATE_FORMAT)) {
-      this.dateFormat = null;
-    } else if (dateFormatType.equalsIgnoreCase(RELATIVE_TIME_DATE_FORMAT)) {
-      this.dateFormat =  new RelativeTimeDateFormat();
-    } else if(dateFormatType.equalsIgnoreCase(
-                             AbsoluteTimeDateFormat.ABS_TIME_DATE_FORMAT)) {
-      this.dateFormat =  new AbsoluteTimeDateFormat(timeZone);
-    } else if(dateFormatType.equalsIgnoreCase(
-                        AbsoluteTimeDateFormat.DATE_AND_TIME_DATE_FORMAT)) {
-      this.dateFormat =  new DateTimeDateFormat(timeZone);
-    } else if(dateFormatType.equalsIgnoreCase(
-                              AbsoluteTimeDateFormat.ISO8601_DATE_FORMAT)) {
-      this.dateFormat =  new ISO8601DateFormat(timeZone);
-    } else {
-      this.dateFormat = new SimpleDateFormat(dateFormatType);
-      this.dateFormat.setTimeZone(timeZone);
-    }
   }
 }

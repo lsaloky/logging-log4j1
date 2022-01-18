@@ -63,7 +63,6 @@ public abstract class StreamUtils {
    */
   public static void copy(InputStream input, OutputStream output)
       throws IOException {
-    copy(input, output, DEFAULT_BUFFER_SIZE);
   }
 
   /**
@@ -75,13 +74,6 @@ public abstract class StreamUtils {
       OutputStream output,
       int bufferSize)
       throws IOException {
-    byte[] buf = new byte[bufferSize];
-    int bytesRead = input.read(buf);
-    while (bytesRead != -1) {
-      output.write(buf, 0, bytesRead);
-      bytesRead = input.read(buf);
-    }
-    output.flush();
   }
 
   /**
@@ -91,9 +83,6 @@ public abstract class StreamUtils {
    */
   public static void copyThenClose(InputStream input, OutputStream output)
       throws IOException {
-    copy(input, output);
-    input.close();
-    output.close();
   }
 
   /**
@@ -103,10 +92,7 @@ public abstract class StreamUtils {
    */
   public static byte[] getBytes(InputStream input)
       throws IOException {
-    ByteArrayOutputStream result = new ByteArrayOutputStream();
-    copy(input, result);
-    result.close();
-    return result.toByteArray();
+    return null;
   }
 
   //--------------------------------------------------------------------------

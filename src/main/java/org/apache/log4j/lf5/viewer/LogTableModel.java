@@ -54,7 +54,7 @@ public class LogTableModel extends DefaultTableModel {
   //--------------------------------------------------------------------------
 
   public boolean isCellEditable(int row, int column) {
-    return (false);
+    return false;
   }
   //--------------------------------------------------------------------------
   //   Protected Methods:

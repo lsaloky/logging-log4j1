@@ -82,17 +82,17 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
   /**
    * URL of the DB for default connection handling
    */
-  protected String databaseURL = "jdbc:odbc:myDB";
+  protected String databaseURL = "";
 
   /**
    * User to connect as for default connection handling
    */
-  protected String databaseUser = "me";
+  protected String databaseUser = "";
 
   /**
    * User to use for default connection handling
    */
-  protected String databasePassword = "mypassword";
+  protected String databasePassword = "";
 
   /**
    * Connection used by default.  The connection is opened the first time it
@@ -132,18 +132,12 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
 
   public JDBCAppender() {
     super();
-    buffer = new ArrayList(bufferSize);
-    removes = new ArrayList(bufferSize);
   }
 
   /**
    * Adds the event to the buffer.  When full the buffer is flushed.
    */
   public void append(LoggingEvent event) {
-    buffer.add(event);
-
-    if (buffer.size() >= bufferSize)
-      flushBuffer();
   }
 
   /**
@@ -155,7 +149,7 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
    *
    */
   protected String getLogStatement(LoggingEvent event) {
-    return getLayout().format(event);
+    return "";
   }
 
   /**
@@ -167,24 +161,6 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
    * accessed in an override of this method.
    * */
   protected void execute(String sql) throws SQLException {
-
-    Connection con = null;
-    Statement stmt = null;
-
-    try {
-        con = getConnection();
-
-        stmt = con.createStatement();
-        stmt.executeUpdate(sql);
-    } catch (SQLException e) {
-       if (stmt != null)
-	     stmt.close();
-       throw e;
-    }
-    stmt.close();
-    closeConnection(con);
-
-    //System.out.println("Execute: " + sql);
   }
 
 
@@ -205,15 +181,7 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
    * until the object is garbage collected.
    */
   protected Connection getConnection() throws SQLException {
-      if (!DriverManager.getDrivers().hasMoreElements())
-	     setDriver("sun.jdbc.odbc.JdbcOdbcDriver");
-
-      if (connection == null) {
-        connection = DriverManager.getConnection(databaseURL, databaseUser,
-					databasePassword);
-      }
-
-      return connection;
+    return null;
   }
 
   /**
@@ -222,15 +190,6 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
    */
   public void close()
   {
-    flushBuffer();
-
-    try {
-      if (connection != null && !connection.isClosed())
-          connection.close();
-    } catch (SQLException e) {
-        errorHandler.error("Error closing connection", e, ErrorCode.GENERIC_FAILURE);
-    }
-    this.closed = true;
   }
 
   /**
@@ -241,32 +200,11 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
    * If a statement fails the LoggingEvent stays in the buffer!
    */
   public void flushBuffer() {
-    //Do the actual logging
-    removes.ensureCapacity(buffer.size());
-    for (Iterator i = buffer.iterator(); i.hasNext();) {
-      try {
-        LoggingEvent logEvent = (LoggingEvent)i.next();
-	    String sql = getLogStatement(logEvent);
-	    execute(sql);
-        removes.add(logEvent);
-      }
-      catch (SQLException e) {
-	    errorHandler.error("Failed to excute sql", e,
-			   ErrorCode.FLUSH_FAILURE);
-      }
-    }
-    
-    // remove from the buffer any events that were reported
-    buffer.removeAll(removes);
-    
-    // clear the buffer of reported events
-    removes.clear();
   }
 
 
   /** closes the appender before disposal */
   public void finalize() {
-    close();
   }
 
 
@@ -282,13 +220,6 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
    *
    */
   public void setSql(String s) {
-    sqlStatement = s;
-    if (getLayout() == null) {
-        this.setLayout(new PatternLayout(s));
-    }
-    else {
-        ((PatternLayout)getLayout()).setConversionPattern(s);
-    }
   }
 
 
@@ -296,49 +227,46 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
    * Returns pre-formated statement eg: insert into LogTable (msg) values ("%m")
    */
   public String getSql() {
-    return sqlStatement;
+    return "";
   }
 
 
   public void setUser(String user) {
-    databaseUser = user;
+    
   }
 
 
   public void setURL(String url) {
-    databaseURL = url;
+    
   }
 
 
   public void setPassword(String password) {
-    databasePassword = password;
+    
   }
 
 
   public void setBufferSize(int newBufferSize) {
-    bufferSize = newBufferSize;
-    buffer.ensureCapacity(bufferSize);
-    removes.ensureCapacity(bufferSize);
   }
 
 
   public String getUser() {
-    return databaseUser;
+    return "";
   }
 
 
   public String getURL() {
-    return databaseURL;
+    return "";
   }
 
 
   public String getPassword() {
-    return databasePassword;
+    return "";
   }
 
 
   public int getBufferSize() {
-    return bufferSize;
+    return 0;
   }
 
 
@@ -347,12 +275,6 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
    * creation.
    */
   public void setDriver(String driverClass) {
-    try {
-      Class.forName(driverClass);
-    } catch (Exception e) {
-      errorHandler.error("Failed to load driver", e,
-			 ErrorCode.GENERIC_FAILURE);
-    }
   }
 }
 

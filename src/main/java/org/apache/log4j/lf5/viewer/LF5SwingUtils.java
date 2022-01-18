@@ -59,18 +59,6 @@ public class LF5SwingUtils {
    * @param table should belong to the specified JScrollPane
    */
   public static void selectRow(int row, JTable table, JScrollPane pane) {
-    if (table == null || pane == null) {
-      return;
-    }
-    if (contains(row, table.getModel()) == false) {
-      return;
-    }
-    moveAdjustable(row * table.getRowHeight(), pane.getVerticalScrollBar());
-    selectRow(row, table.getSelectionModel());
-    // repaint must be done later because moveAdjustable
-    // posts requests to the swing thread which must execute before
-    // the repaint logic gets executed.
-    repaintLater(table);
   }
 
   /**
@@ -78,10 +66,6 @@ public class LF5SwingUtils {
    * the specified Adjustable is located near the of the view.
    */
   public static void makeScrollBarTrack(Adjustable scrollBar) {
-    if (scrollBar == null) {
-      return;
-    }
-    scrollBar.addAdjustmentListener(new TrackingAdjustmentListener());
   }
 
   /**
@@ -90,40 +74,19 @@ public class LF5SwingUtils {
    * table).
    */
   public static void makeVerticalScrollBarTrack(JScrollPane pane) {
-    if (pane == null) {
-      return;
-    }
-    makeScrollBarTrack(pane.getVerticalScrollBar());
   }
 
   //--------------------------------------------------------------------------
   //   Protected Methods:
   //--------------------------------------------------------------------------
   protected static boolean contains(int row, TableModel model) {
-    if (model == null) {
-      return false;
-    }
-    if (row < 0) {
-      return false;
-    }
-    if (row >= model.getRowCount()) {
-      return false;
-    }
-    return true;
+    return false;
   }
 
   protected static void selectRow(int row, ListSelectionModel model) {
-    if (model == null) {
-      return;
-    }
-    model.setSelectionInterval(row, row);
   }
 
   protected static void moveAdjustable(int location, Adjustable scrollBar) {
-    if (scrollBar == null) {
-      return;
-    }
-    scrollBar.setValue(location);
   }
 
   /**
@@ -131,11 +94,6 @@ public class LF5SwingUtils {
    * @link http://developer.java.sun.com/developer/bugParade/bugs/4205145.html
    */
   protected static void repaintLater(final JComponent component) {
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        component.repaint();
-      }
-    });
   }
   //--------------------------------------------------------------------------
   //   Private Methods:

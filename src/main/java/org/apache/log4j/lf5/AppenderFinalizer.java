@@ -49,7 +49,6 @@ public class AppenderFinalizer {
   //--------------------------------------------------------------------------
 
   public AppenderFinalizer(LogBrokerMonitor defaultMonitor) {
-    _defaultMonitor = defaultMonitor;
   }
   //--------------------------------------------------------------------------
   // Public Methods:
@@ -63,8 +62,6 @@ public class AppenderFinalizer {
    * @throws java.lang.Throwable
    */
   protected void finalize() throws Throwable {
-    System.out.println("Disposing of the default LogBrokerMonitor instance");
-    _defaultMonitor.dispose();
   }
 
   //--------------------------------------------------------------------------

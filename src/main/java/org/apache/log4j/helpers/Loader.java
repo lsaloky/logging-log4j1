@@ -38,21 +38,6 @@ public class Loader  {
   
   static private boolean ignoreTCL = false;
   
-  static {
-    String prop = OptionConverter.getSystemProperty("java.version", null);
-    
-    if(prop != null) {
-      int i = prop.indexOf('.');
-      if(i != -1) {	
-	if(prop.charAt(i+1) != '1')
-	  java1 = false;
-      } 
-    }
-    String ignoreTCLProp = OptionConverter.getSystemProperty("log4j.ignoreTCL", null);
-    if(ignoreTCLProp != null) {
-      ignoreTCL = OptionConverter.toBoolean(ignoreTCLProp, true);      
-    }   
-  }
   
   /**
    *  Get a resource by delegating to getResource(String).
@@ -85,44 +70,7 @@ public class Loader  {
      </ol>
   */
   static public URL getResource(String resource) {
-    ClassLoader classLoader = null;
-    URL url = null;
-    
-    try {
-  	if(!java1) {
-  	  classLoader = getTCL();
-  	  if(classLoader != null) {
-  	    LogLog.debug("Trying to find ["+resource+"] using context classloader "
-  			 +classLoader+".");
-  	    url = classLoader.getResource(resource);      
-  	    if(url != null) {
-  	      return url;
-  	    }
-  	  }
-  	}
-  	
-  	// We could not find resource. Ler us now try with the
-  	// classloader that loaded this class.
-  	classLoader = Loader.class.getClassLoader(); 
-  	if(classLoader != null) {
-  	  LogLog.debug("Trying to find ["+resource+"] using "+classLoader
-  		       +" class loader.");
-  	  url = classLoader.getResource(resource);
-  	  if(url != null) {
-  	    return url;
-  	  }
-  	}
-    } catch(Throwable t) {
-  	LogLog.warn(TSTR, t);
-    }
-    
-    // Last ditch attempt: get the resource from the class path. It
-    // may be the case that clazz was loaded by the Extentsion class
-    // loader which the parent of the system class loader. Hence the
-    // code below.
-    LogLog.debug("Trying to find ["+resource+
-  		   "] using ClassLoader.getSystemResource().");
-    return ClassLoader.getSystemResource(resource);
+    return null;
   } 
   
   /**
@@ -134,28 +82,6 @@ public class Loader  {
     return java1;
   }
   
-  /**
-    * Get the Thread Context Loader which is a JDK 1.2 feature. If we
-    * are running under JDK 1.1 or anything else goes wrong the method
-    * returns <code>null<code>.
-    *
-    *  */
-  private static ClassLoader getTCL() throws IllegalAccessException, 
-    InvocationTargetException {
-
-    // Are we running on a JDK 1.2 or later system?
-    Method method = null;
-    try {
-      method = Thread.class.getMethod("getContextClassLoader", null);
-    } catch (NoSuchMethodException e) {
-      // We are running on JDK 1.1
-      return null;
-    }
-    
-    return (ClassLoader) method.invoke(Thread.currentThread(), null);
-  }
-
-
   
   /**
    * If running under JDK 1.2 load the specified class using the
@@ -165,19 +91,6 @@ public class Loader  {
    *
    */
   static public Class loadClass (String clazz) throws ClassNotFoundException {
-    // Just call Class.forName(clazz) if we are running under JDK 1.1
-    // or if we are instructed to ignore the TCL.
-    if(java1 || ignoreTCL) {
-      return Class.forName(clazz);
-    } else {
-      try {
-	return getTCL().loadClass(clazz);
-      } catch(Throwable e) {
-	// we reached here because tcl was null or because of a
-	// security exception, or because clazz could not be loaded...
-	// In any case we now try one more time
-	return Class.forName(clazz);
-      }
-    }
+    return Class.forName(clazz);
   } 
 }

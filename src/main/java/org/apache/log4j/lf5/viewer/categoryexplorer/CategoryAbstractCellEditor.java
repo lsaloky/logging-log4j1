@@ -78,39 +78,24 @@ public class CategoryAbstractCellEditor implements TableCellEditor, TreeCellEdit
   }
 
   public boolean isCellEditable(EventObject anEvent) {
-    if (anEvent instanceof MouseEvent) {
-      if (((MouseEvent) anEvent).getClickCount() < _clickCountToStart) {
-        return false;
-      }
-    }
     return true;
   }
 
   public boolean shouldSelectCell(EventObject anEvent) {
-    if (this.isCellEditable(anEvent)) {
-      if (anEvent == null ||
-          ((MouseEvent) anEvent).getClickCount() >= _clickCountToStart) {
-        return true;
-      }
-    }
     return false;
   }
 
   public boolean stopCellEditing() {
-    fireEditingStopped();
     return true;
   }
 
   public void cancelCellEditing() {
-    fireEditingCanceled();
   }
 
   public void addCellEditorListener(CellEditorListener l) {
-    _listenerList.add(CellEditorListener.class, l);
   }
 
   public void removeCellEditorListener(CellEditorListener l) {
-    _listenerList.remove(CellEditorListener.class, l);
   }
 
   public Component getTreeCellEditorComponent(
@@ -132,31 +117,9 @@ public class CategoryAbstractCellEditor implements TableCellEditor, TreeCellEdit
   //   Protected Methods:
   //--------------------------------------------------------------------------
   protected void fireEditingStopped() {
-    Object[] listeners = _listenerList.getListenerList();
-
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == CellEditorListener.class) {
-        if (_changeEvent == null) {
-          _changeEvent = new ChangeEvent(this);
-        }
-
-        ((CellEditorListener) listeners[i + 1]).editingStopped(_changeEvent);
-      }
-    }
   }
 
   protected void fireEditingCanceled() {
-    Object[] listeners = _listenerList.getListenerList();
-
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == CellEditorListener.class) {
-        if (_changeEvent == null) {
-          _changeEvent = new ChangeEvent(this);
-        }
-
-        ((CellEditorListener) listeners[i + 1]).editingCanceled(_changeEvent);
-      }
-    }
   }
 
   //--------------------------------------------------------------------------

@@ -60,7 +60,6 @@ public class Resource {
    * @see #setName(String)
    */
   public Resource(String name) {
-    _name = name;
   }
 
   //--------------------------------------------------------------------------
@@ -81,7 +80,6 @@ public class Resource {
    * @see #getName()
    */
   public void setName(String name) {
-    _name = name;
   }
 
   /**
@@ -91,7 +89,7 @@ public class Resource {
    * @see #setName
    */
   public String getName() {
-    return (_name);
+    return "";
   }
 
   /**
@@ -102,9 +100,7 @@ public class Resource {
    * @see ResourceUtils
    */
   public InputStream getInputStream() {
-    InputStream in = ResourceUtils.getResourceAsStream(this, this);
-
-    return (in);
+    return null;
   }
 
   /**
@@ -115,15 +111,7 @@ public class Resource {
    * @see ResourceUtils
    */
   public InputStreamReader getInputStreamReader() {
-    InputStream in = ResourceUtils.getResourceAsStream(this, this);
-
-    if (in == null) {
-      return null;
-    }
-
-    InputStreamReader reader = new InputStreamReader(in);
-
-    return reader;
+    return null;
   }
 
   /**
@@ -132,7 +120,7 @@ public class Resource {
    * @see ResourceUtils
    */
   public URL getURL() {
-    return (ResourceUtils.getResourceAsURL(this, this));
+    return null;
   }
 
   //--------------------------------------------------------------------------
@@ -148,9 +136,3 @@ public class Resource {
   //--------------------------------------------------------------------------
 
 }
-
-
-
-
-
-

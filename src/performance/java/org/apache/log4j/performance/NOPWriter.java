@@ -50,6 +50,5 @@ public class NOPWriter extends Writer {
   }
 
   public void close() throws IOException {
-    System.err.println("Close called.");
   }
 }

@@ -53,26 +53,15 @@ public class LogTableColumn implements java.io.Serializable {
   //--------------------------------------------------------------------------
   //   Private Variables:
   //--------------------------------------------------------------------------
-  private static LogTableColumn[] _log4JColumns;
-  private static Map _logTableColumnMap;
 
   //--------------------------------------------------------------------------
   //   Constructors:
   //--------------------------------------------------------------------------
   static {
-    _log4JColumns = new LogTableColumn[]{DATE, THREAD, MESSAGE_NUM, LEVEL, NDC, CATEGORY,
-                                         MESSAGE, LOCATION, THROWN};
-
-    _logTableColumnMap = new HashMap();
-
-    for (int i = 0; i < _log4JColumns.length; i++) {
-      _logTableColumnMap.put(_log4JColumns[i].getLabel(), _log4JColumns[i]);
-    }
   }
 
 
   public LogTableColumn(String label) {
-    _label = label;
   }
 
   //--------------------------------------------------------------------------
@@ -83,7 +72,7 @@ public class LogTableColumn implements java.io.Serializable {
    * Return the Label of the LogLevel.
    */
   public String getLabel() {
-    return _label;
+    return "";
   }
 
   /**
@@ -96,41 +85,7 @@ public class LogTableColumn implements java.io.Serializable {
    */
   public static LogTableColumn valueOf(String column)
       throws LogTableColumnFormatException {
-    LogTableColumn tableColumn = null;
-    if (column != null) {
-      column = column.trim();
-      tableColumn = (LogTableColumn) _logTableColumnMap.get(column);
-    }
-
-    if (tableColumn == null) {
-      StringBuffer buf = new StringBuffer();
-      buf.append("Error while trying to parse (" + column + ") into");
-      buf.append(" a LogTableColumn.");
-      throw new LogTableColumnFormatException(buf.toString());
-    }
-    return tableColumn;
-  }
-
-
-  public boolean equals(Object o) {
-    boolean equals = false;
-
-    if (o instanceof LogTableColumn) {
-      if (this.getLabel() ==
-          ((LogTableColumn) o).getLabel()) {
-        equals = true;
-      }
-    }
-
-    return equals;
-  }
-
-  public int hashCode() {
-    return _label.hashCode();
-  }
-
-  public String toString() {
-    return _label;
+    return null;
   }
 
   /**
@@ -138,11 +93,11 @@ public class LogTableColumn implements java.io.Serializable {
    * to log4j <code>Column</code> objects.
    */
   public static List getLogTableColumns() {
-    return Arrays.asList(_log4JColumns);
+    return null;
   }
 
   public static LogTableColumn[] getLogTableColumnArray() {
-    return _log4JColumns;
+    return null;
   }
 
   //--------------------------------------------------------------------------

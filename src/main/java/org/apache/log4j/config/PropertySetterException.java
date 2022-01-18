@@ -26,7 +26,6 @@ package org.apache.log4j.config;
  */
 public class PropertySetterException extends Exception {
   private static final long serialVersionUID = -1352613734254235861L;
-  protected Throwable rootCause;
   
   public
   PropertySetterException(String msg) {
@@ -37,7 +36,6 @@ public class PropertySetterException extends Exception {
   PropertySetterException(Throwable rootCause)
   {
     super();
-    this.rootCause = rootCause;
   }
   
   /**
@@ -45,10 +43,6 @@ public class PropertySetterException extends Exception {
    */
   public
   String getMessage() {
-    String msg = super.getMessage();
-    if (msg == null && rootCause != null) {
-      msg = rootCause.getMessage();
-    }
-    return msg;
+    return super.getMessage();
   }
 }

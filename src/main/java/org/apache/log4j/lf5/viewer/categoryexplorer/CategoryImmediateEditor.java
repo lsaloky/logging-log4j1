@@ -40,7 +40,6 @@ public class CategoryImmediateEditor extends DefaultTreeCellEditor {
   //--------------------------------------------------------------------------
   //   Protected Variables:
   //--------------------------------------------------------------------------
-  private CategoryNodeRenderer renderer;
   protected Icon editingIcon = null;
 
   //--------------------------------------------------------------------------
@@ -54,56 +53,17 @@ public class CategoryImmediateEditor extends DefaultTreeCellEditor {
       CategoryNodeRenderer renderer,
       CategoryNodeEditor editor) {
     super(tree, renderer, editor);
-    this.renderer = renderer;
-    renderer.setIcon(null);
-    renderer.setLeafIcon(null);
-    renderer.setOpenIcon(null);
-    renderer.setClosedIcon(null);
-
-    super.editingIcon = null;
   }
 
   //--------------------------------------------------------------------------
   //   Public Methods:
   //--------------------------------------------------------------------------
   public boolean shouldSelectCell(EventObject e) {
-    boolean rv = false;  // only mouse events
-
-    if (e instanceof MouseEvent) {
-      MouseEvent me = (MouseEvent) e;
-      TreePath path = tree.getPathForLocation(me.getX(),
-          me.getY());
-      CategoryNode node = (CategoryNode)
-          path.getLastPathComponent();
-
-      rv = node.isLeaf() /*|| !inCheckBoxHitRegion(me)*/;
-    }
-    return rv;
+    return false;
   }
 
   public boolean inCheckBoxHitRegion(MouseEvent e) {
-    TreePath path = tree.getPathForLocation(e.getX(),
-        e.getY());
-    if (path == null) {
-      return false;
-    }
-    CategoryNode node = (CategoryNode) path.getLastPathComponent();
-    boolean rv = false;
-
-    if (true) {
-      // offset and lastRow DefaultTreeCellEditor
-      // protected members
-
-      Rectangle bounds = tree.getRowBounds(lastRow);
-      Dimension checkBoxOffset =
-          renderer.getCheckBoxOffset();
-
-      bounds.translate(offset + checkBoxOffset.width,
-          checkBoxOffset.height);
-
-      rv = bounds.contains(e.getPoint());
-    }
-    return true;
+    return false;
   }
 
   //--------------------------------------------------------------------------
@@ -111,20 +71,12 @@ public class CategoryImmediateEditor extends DefaultTreeCellEditor {
   //--------------------------------------------------------------------------
 
   protected boolean canEditImmediately(EventObject e) {
-    boolean rv = false;
-
-    if (e instanceof MouseEvent) {
-      MouseEvent me = (MouseEvent) e;
-      rv = inCheckBoxHitRegion(me);
-    }
-
-    return rv;
+    return false;
   }
 
   protected void determineOffset(JTree tree, Object value,
       boolean isSelected, boolean expanded,
       boolean leaf, int row) {
-    // Very important: means that the tree won't jump around.
     offset = 0;
   }
 

@@ -40,30 +40,7 @@ public abstract class AbstractDynamicMBean implements DynamicMBean,
    */
   public
   AttributeList getAttributes(String[] attributeNames) {
-
-    // Check attributeNames is not null to avoid NullPointerException later on
-    if (attributeNames == null) {
-      throw new RuntimeOperationsException(
-			   new IllegalArgumentException("attributeNames[] cannot be null"),
-			   "Cannot invoke a getter of " + dClassName);
-    }
-
-    AttributeList resultList = new AttributeList();
-
-    // if attributeNames is empty, return an empty result list
-    if (attributeNames.length == 0)
-      return resultList;
-
-    // build the result attribute list
-    for (int i=0 ; i<attributeNames.length ; i++){
-      try {
-	Object value = getAttribute((String) attributeNames[i]);
-	resultList.add(new Attribute(attributeNames[i],value));
-      } catch (Exception e) {
-	e.printStackTrace();
-      }
-    }
-    return(resultList);
+    return(null);
   }
 
   /**
@@ -71,32 +48,7 @@ public abstract class AbstractDynamicMBean implements DynamicMBean,
    * list of attributes that have been set.
    */
   public AttributeList setAttributes(AttributeList attributes) {
-
-    // Check attributes is not null to avoid NullPointerException later on
-    if (attributes == null) {
-      throw new RuntimeOperationsException(
-                    new IllegalArgumentException("AttributeList attributes cannot be null"),
-		    "Cannot invoke a setter of " + dClassName);
-    }
-    AttributeList resultList = new AttributeList();
-
-    // if attributeNames is empty, nothing more to do
-    if (attributes.isEmpty())
-      return resultList;
-
-    // for each attribute, try to set it and add to the result list if successfull
-    for (Iterator i = attributes.iterator(); i.hasNext();) {
-      Attribute attr = (Attribute) i.next();
-      try {
-	setAttribute(attr);
-	String name = attr.getName();
-	Object value = getAttribute(name);
-	resultList.add(new Attribute(name,value));
-      } catch(Exception e) {
-	e.printStackTrace();
-      }
-    }
-    return(resultList);
+    return null;
   }
 
   protected
@@ -105,27 +57,18 @@ public abstract class AbstractDynamicMBean implements DynamicMBean,
 
   public
   void postDeregister() {
-    getLogger().debug("postDeregister is called.");
   }
 
   public
   void postRegister(java.lang.Boolean registrationDone) {
   }
 
-
-
   public
   void preDeregister() {
-    getLogger().debug("preDeregister called.");
   }
 
   public
   ObjectName preRegister(MBeanServer server, ObjectName name) {
-    getLogger().debug("preRegister called. Server="+server+ ", name="+name);
-    this.server = server;
-    return name;
+    return null;
   }
-
-
-
 }

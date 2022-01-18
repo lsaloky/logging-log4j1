@@ -30,27 +30,23 @@ import org.apache.log4j.spi.ErrorHandler;
 */
 public class SyslogQuietWriter extends QuietWriter {
 
-  int syslogFacility;
-  int level;
-
   public
   SyslogQuietWriter(Writer writer, int syslogFacility, ErrorHandler eh) {
     super(writer, eh);
-    this.syslogFacility = syslogFacility;
   }
 
   public
   void setLevel(int level) {
-    this.level = level;
+    
   }
 
   public
   void setSyslogFacility(int syslogFacility) {
-    this.syslogFacility = syslogFacility;
+    
   }
 
   public
   void write(String string) {
-    super.write("<"+(syslogFacility | level)+">" + string);
+    
   }
 }

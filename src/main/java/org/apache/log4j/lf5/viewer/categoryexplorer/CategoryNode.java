@@ -56,20 +56,16 @@ public class CategoryNode extends DefaultMutableTreeNode {
    *
    */
   public CategoryNode(String title) {
-    setUserObject(title);
   }
 
   //--------------------------------------------------------------------------
   //   Public Methods:
   //--------------------------------------------------------------------------
   public String getTitle() {
-    return (String) getUserObject();
+    return "";
   }
 
   public void setSelected(boolean s) {
-    if (s != _selected) {
-      _selected = s;
-    }
   }
 
   public boolean isSelected() {
@@ -80,50 +76,19 @@ public class CategoryNode extends DefaultMutableTreeNode {
    * @deprecated
    */
   public void setAllDescendantsSelected() {
-    Enumeration children = children();
-    while (children.hasMoreElements()) {
-      CategoryNode node = (CategoryNode) children.nextElement();
-      node.setSelected(true);
-      node.setAllDescendantsSelected();
-    }
   }
 
   /**
    * @deprecated
    */
   public void setAllDescendantsDeSelected() {
-    Enumeration children = children();
-    while (children.hasMoreElements()) {
-      CategoryNode node = (CategoryNode) children.nextElement();
-      node.setSelected(false);
-      node.setAllDescendantsDeSelected();
-    }
   }
 
   public String toString() {
-    return (getTitle());
-  }
-
-  public boolean equals(Object obj) {
-    if (obj instanceof CategoryNode) {
-      CategoryNode node = (CategoryNode) obj;
-      String tit1 = getTitle().toLowerCase();
-      String tit2 = node.getTitle().toLowerCase();
-
-      if (tit1.equals(tit2)) {
-        return (true);
-      }
-    }
-    return (false);
-  }
-
-  public int hashCode() {
-    return (getTitle().hashCode());
+    return "";
   }
 
   public void addRecord() {
-    _numberOfContainedRecords++;
-    addRecordToParent();
   }
 
   public int getNumberOfContainedRecords() {
@@ -131,10 +96,6 @@ public class CategoryNode extends DefaultMutableTreeNode {
   }
 
   public void resetNumberOfContainedRecords() {
-    _numberOfContainedRecords = 0;
-    _numberOfRecordsFromChildren = 0;
-    _hasFatalRecords = false;
-    _hasFatalChildren = false;
   }
 
   public boolean hasFatalRecords() {
@@ -158,15 +119,13 @@ public class CategoryNode extends DefaultMutableTreeNode {
   //--------------------------------------------------------------------------
 
   protected int getTotalNumberOfRecords() {
-    return getNumberOfRecordsFromChildren() + getNumberOfContainedRecords();
+    return 0;
   }
 
   /**
    * Passes up the addition from child to parent
    */
   protected void addRecordFromChild() {
-    _numberOfRecordsFromChildren++;
-    addRecordToParent();
   }
 
   protected int getNumberOfRecordsFromChildren() {
@@ -174,11 +133,6 @@ public class CategoryNode extends DefaultMutableTreeNode {
   }
 
   protected void addRecordToParent() {
-    TreeNode parent = getParent();
-    if (parent == null) {
-      return;
-    }
-    ((CategoryNode) parent).addRecordFromChild();
   }
   //--------------------------------------------------------------------------
   //   Private Methods:

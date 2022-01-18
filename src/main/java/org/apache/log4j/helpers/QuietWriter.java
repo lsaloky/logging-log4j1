@@ -39,37 +39,18 @@ public class QuietWriter extends FilterWriter {
   public
   QuietWriter(Writer writer, ErrorHandler errorHandler) {
     super(writer);
-    setErrorHandler(errorHandler);
   }
 
   public
   void write(String string) {
-    try {
-      out.write(string);
-    } catch(IOException e) {
-      errorHandler.error("Failed to write ["+string+"].", e, 
-			 ErrorCode.WRITE_FAILURE);
-    }
   }
 
   public
   void flush() {
-    try {
-      out.flush();
-    } catch(IOException e) {
-      errorHandler.error("Failed to flush writer,", e, 
-			 ErrorCode.FLUSH_FAILURE);
-    }	
   }
 
 
   public
   void setErrorHandler(ErrorHandler eh) {
-    if(eh == null) {
-      // This is a programming error on the part of the enclosing appender.
-      throw new IllegalArgumentException("Attempted to set null ErrorHandler.");
-    } else { 
-      this.errorHandler = eh;
-    }
   }
 }

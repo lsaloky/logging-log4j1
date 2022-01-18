@@ -47,15 +47,6 @@ public class CyclicBuffer {
      @param maxSize The maximum number of elements in the buffer.
   */
   public CyclicBuffer(int maxSize) throws IllegalArgumentException {
-    if(maxSize < 1) {
-      throw new IllegalArgumentException("The maxSize argument ("+maxSize+
-			    ") is not a positive integer.");
-    }
-    this.maxSize = maxSize;
-    ea = new LoggingEvent[maxSize];
-    first = 0;
-    last = 0;
-    numElems = 0;
   }
     
   /**
@@ -64,14 +55,6 @@ public class CyclicBuffer {
    */
   public
   void add(LoggingEvent event) {    
-    ea[last] = event;    
-    if(++last == maxSize)
-      last = 0;
-
-    if(numElems < maxSize)
-      numElems++;
-    else if(++first == maxSize)
-      first = 0;
   }
 
 
@@ -84,10 +67,7 @@ public class CyclicBuffer {
   */
   public
   LoggingEvent get(int i) {
-    if(i < 0 || i >= numElems)
-      return null;
-
-    return ea[(first + i) % maxSize];
+    return null;
   }
 
   public 
@@ -101,15 +81,7 @@ public class CyclicBuffer {
   */
   public
   LoggingEvent get() {
-    LoggingEvent r = null;
-    if(numElems > 0) {
-      numElems--;
-      r = ea[first];
-      ea[first] = null;
-      if(++first == maxSize)
-	first = 0;
-    } 
-    return r;
+    return null;
   }
   
   /**
@@ -119,7 +91,7 @@ public class CyclicBuffer {
   */
   public
   int length() {
-    return numElems;
+    return 0;
   } 
 
   /**
@@ -129,31 +101,5 @@ public class CyclicBuffer {
    */
   public 
   void resize(int newSize) {
-    if(newSize < 0) {
-      throw new IllegalArgumentException("Negative array size ["+newSize+
-					 "] not allowed.");
-    }
-    if(newSize == numElems)
-      return; // nothing to do
-    
-    LoggingEvent[] temp = new  LoggingEvent[newSize];
-
-    int loopLen = newSize < numElems ? newSize : numElems;
-    
-    for(int i = 0; i < loopLen; i++) {
-      temp[i] = ea[first];
-      ea[first] = null;
-      if(++first == numElems) 
-	first = 0;
-    }
-    ea = temp;
-    first = 0;
-    numElems = loopLen;
-    maxSize = newSize;
-    if (loopLen == newSize) {
-      last = 0;
-    } else {
-      last = loopLen;
-    }
   }
 }

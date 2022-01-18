@@ -57,9 +57,6 @@ public class CategoryExplorerTree extends JTree {
    */
   public CategoryExplorerTree(CategoryExplorerModel model) {
     super(model);
-
-    _model = model;
-    init();
   }
 
   /**
@@ -67,14 +64,6 @@ public class CategoryExplorerTree extends JTree {
    */
   public CategoryExplorerTree() {
     super();
-
-    CategoryNode rootNode = new CategoryNode("Categories");
-
-    _model = new CategoryExplorerModel(rootNode);
-
-    setModel(_model);
-
-    init();
   }
 
   //--------------------------------------------------------------------------
@@ -82,17 +71,11 @@ public class CategoryExplorerTree extends JTree {
   //--------------------------------------------------------------------------
 
   public CategoryExplorerModel getExplorerModel() {
-    return (_model);
+    return null;
   }
 
   public String getToolTipText(MouseEvent e) {
-
-    try {
-      return super.getToolTipText(e);
-    } catch (Exception ex) {
-      return "";
-    }
-
+    return "";
   }
 
   //--------------------------------------------------------------------------
@@ -100,43 +83,12 @@ public class CategoryExplorerTree extends JTree {
   //--------------------------------------------------------------------------
 
   protected void init() {
-    // Put visible lines on the JTree.
-    putClientProperty("JTree.lineStyle", "Angled");
-
-    // Configure the Tree with the appropriate Renderers and Editors.
-
-    CategoryNodeRenderer renderer = new CategoryNodeRenderer();
-    setEditable(true);
-    setCellRenderer(renderer);
-
-    CategoryNodeEditor editor = new CategoryNodeEditor(_model);
-
-    setCellEditor(new CategoryImmediateEditor(this,
-        new CategoryNodeRenderer(),
-        editor));
-    setShowsRootHandles(true);
-
-    setToolTipText("");
-
-    ensureRootExpansion();
-
   }
 
   protected void expandRootNode() {
-    if (_rootAlreadyExpanded) {
-      return;
-    }
-    _rootAlreadyExpanded = true;
-    TreePath path = new TreePath(_model.getRootCategoryNode().getPath());
-    expandPath(path);
   }
 
   protected void ensureRootExpansion() {
-    _model.addTreeModelListener(new TreeModelAdapter() {
-      public void treeNodesInserted(TreeModelEvent e) {
-        expandRootNode();
-      }
-    });
   }
 
   //--------------------------------------------------------------------------

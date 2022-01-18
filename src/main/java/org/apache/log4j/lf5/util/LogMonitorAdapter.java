@@ -45,22 +45,12 @@ public class LogMonitorAdapter {
   //--------------------------------------------------------------------------
   //   Private Variables:
   //--------------------------------------------------------------------------
-  private LogBrokerMonitor _logMonitor;
-  private LogLevel _defaultLevel = null;
 
   //--------------------------------------------------------------------------
   //   Constructors:
   //--------------------------------------------------------------------------
   private LogMonitorAdapter(List userDefinedLevels) {
     super();
-    // set the default level to be the first entry in the list
-    _defaultLevel = (LogLevel) userDefinedLevels.get(0);
-    _logMonitor = new LogBrokerMonitor(userDefinedLevels);
-
-    _logMonitor.setFrameSize(getDefaultMonitorWidth(),
-        getDefaultMonitorHeight());
-    _logMonitor.setFontSize(12);
-    _logMonitor.show();
   }
   //--------------------------------------------------------------------------
   //   Public Methods:
@@ -74,17 +64,7 @@ public class LogMonitorAdapter {
    * @return LogMonitorAdapter
    */
   public static LogMonitorAdapter newInstance(int loglevels) {
-    LogMonitorAdapter adapter;
-    if (loglevels == JDK14_LOG_LEVELS) {
-      adapter = newInstance(LogLevel.getJdk14Levels());
-      adapter.setDefaultLevel(LogLevel.FINEST);
-      adapter.setSevereLevel(LogLevel.SEVERE);
-    } else {
-      adapter = newInstance(LogLevel.getLog4JLevels());
-      adapter.setDefaultLevel(LogLevel.DEBUG);
-      adapter.setSevereLevel(LogLevel.FATAL);
-    }
-    return adapter;
+    return new LogMonitorAdapter(null);
   }
 
   /**
@@ -96,10 +76,7 @@ public class LogMonitorAdapter {
    * @return LogMonitorAdapter
    */
   public static LogMonitorAdapter newInstance(LogLevel[] userDefined) {
-    if (userDefined == null) {
-      return null;
-    }
-    return newInstance(Arrays.asList(userDefined));
+    return new LogMonitorAdapter(null);
   }
 
   /**
@@ -111,7 +88,7 @@ public class LogMonitorAdapter {
    * @return LogMonitorAdapter
    */
   public static LogMonitorAdapter newInstance(List userDefinedLevels) {
-    return new LogMonitorAdapter(userDefinedLevels);
+    return new LogMonitorAdapter(null);
   }
 
   /**
@@ -120,7 +97,6 @@ public class LogMonitorAdapter {
    * @param record The LogRecord object to be logged in the logging monitor.
    */
   public void addMessage(LogRecord record) {
-    _logMonitor.addMessage(record);
   }
 
   /**
@@ -129,7 +105,6 @@ public class LogMonitorAdapter {
    * @param maxNumberOfRecords
    */
   public void setMaxNumberOfRecords(int maxNumberOfRecords) {
-    _logMonitor.setMaxNumberOfLogRecords(maxNumberOfRecords);
   }
 
   /**
@@ -139,7 +114,6 @@ public class LogMonitorAdapter {
    * @param level
    */
   public void setDefaultLevel(LogLevel level) {
-    _defaultLevel = level;
   }
 
   /**
@@ -148,7 +122,7 @@ public class LogMonitorAdapter {
    * @return LogLevel
    */
   public LogLevel getDefaultLevel() {
-    return _defaultLevel;
+    return null;
   }
 
   /**
@@ -157,7 +131,6 @@ public class LogMonitorAdapter {
    * @param level
    */
   public void setSevereLevel(LogLevel level) {
-    AdapterLogRecord.setSevereLevel(level);
   }
 
   /**
@@ -166,7 +139,7 @@ public class LogMonitorAdapter {
    * @return LogLevel
    */
   public LogLevel getSevereLevel() {
-    return AdapterLogRecord.getSevereLevel();
+    return null;
   }
 
   /**
@@ -181,19 +154,6 @@ public class LogMonitorAdapter {
    */
   public void log(String category, LogLevel level, String message,
       Throwable t, String NDC) {
-    AdapterLogRecord record = new AdapterLogRecord();
-    record.setCategory(category);
-    record.setMessage(message);
-    record.setNDC(NDC);
-    record.setThrown(t);
-
-    if (level == null) {
-      record.setLevel(getDefaultLevel());
-    } else {
-      record.setLevel(level);
-    }
-
-    addMessage(record);
   }
 
   /**
@@ -203,7 +163,6 @@ public class LogMonitorAdapter {
    * @param message The message
    */
   public void log(String category, String message) {
-    log(category, null, message);
   }
 
   /**
@@ -215,7 +174,6 @@ public class LogMonitorAdapter {
    * @param NDC
    */
   public void log(String category, LogLevel level, String message, String NDC) {
-    log(category, level, message, null, NDC);
   }
 
   /**
@@ -228,7 +186,6 @@ public class LogMonitorAdapter {
    */
   public void log(String category, LogLevel level, String message,
       Throwable t) {
-    log(category, level, message, t, null);
   }
 
   /**
@@ -239,7 +196,6 @@ public class LogMonitorAdapter {
    * @param message The message
    */
   public void log(String category, LogLevel level, String message) {
-    log(category, level, message, null, null);
   }
 
   //--------------------------------------------------------------------------
@@ -251,11 +207,7 @@ public class LogMonitorAdapter {
    * @see java.awt.Toolkit
    */
   protected static int getScreenWidth() {
-    try {
-      return Toolkit.getDefaultToolkit().getScreenSize().width;
-    } catch (Throwable t) {
-      return 800;
-    }
+    return 0;
   }
 
   /**
@@ -264,19 +216,15 @@ public class LogMonitorAdapter {
    * @see java.awt.Toolkit
    */
   protected static int getScreenHeight() {
-    try {
-      return Toolkit.getDefaultToolkit().getScreenSize().height;
-    } catch (Throwable t) {
-      return 600;
-    }
+    return 0;
   }
 
   protected static int getDefaultMonitorWidth() {
-    return (3 * getScreenWidth()) / 4;
+    return 0;
   }
 
   protected static int getDefaultMonitorHeight() {
-    return (3 * getScreenHeight()) / 4;
+    return 0;
   }
   //--------------------------------------------------------------------------
   //   Private Methods:

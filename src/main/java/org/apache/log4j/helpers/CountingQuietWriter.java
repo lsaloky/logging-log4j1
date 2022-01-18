@@ -41,13 +41,6 @@ public class CountingQuietWriter extends QuietWriter {
 
   public
   void write(String string) {
-    try {
-      out.write(string);
-      count += string.length();
-    }
-    catch(IOException e) {
-      errorHandler.error("Write failure.", e, ErrorCode.WRITE_FAILURE);
-    }
   }
 
   public

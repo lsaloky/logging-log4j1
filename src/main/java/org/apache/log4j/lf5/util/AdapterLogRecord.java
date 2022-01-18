@@ -44,9 +44,6 @@ public class AdapterLogRecord extends LogRecord {
   //--------------------------------------------------------------------------
   private static LogLevel severeLevel = null;
 
-  private static StringWriter sw = new StringWriter();
-  private static PrintWriter pw = new PrintWriter(sw);
-
   //--------------------------------------------------------------------------
   //   Constructors:
   //--------------------------------------------------------------------------
@@ -58,13 +55,10 @@ public class AdapterLogRecord extends LogRecord {
   //   Public Methods:
   //--------------------------------------------------------------------------
   public void setCategory(String category) {
-    super.setCategory(category);
-    super.setLocation(getLocationInfo(category));
   }
 
   public boolean isSevereLevel() {
-    if (severeLevel == null) return false;
-    return severeLevel.equals(getLevel());
+    return false;
   }
 
   public static void setSevereLevel(LogLevel level) {
@@ -79,29 +73,15 @@ public class AdapterLogRecord extends LogRecord {
   //   Protected Methods:
   //--------------------------------------------------------------------------
   protected String getLocationInfo(String category) {
-    String stackTrace = stackTraceToString(new Throwable());
-    String line = parseLine(stackTrace, category);
-    return line;
+    return "";
   }
 
   protected String stackTraceToString(Throwable t) {
-    String s = null;
-
-    synchronized (sw) {
-      t.printStackTrace(pw);
-      s = sw.toString();
-      sw.getBuffer().setLength(0);
-    }
-
-    return s;
+    return "";
   }
 
   protected String parseLine(String trace, String category) {
-    int index = trace.indexOf(category);
-    if (index == -1) return null;
-    trace = trace.substring(index);
-    trace = trace.substring(0, trace.indexOf(")") + 1);
-    return trace;
+    return "";
   }
   //--------------------------------------------------------------------------
   //   Private Methods:

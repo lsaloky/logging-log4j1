@@ -40,7 +40,6 @@ public class NullAppender extends AppenderSkeleton {
 
   public
   NullAppender(Layout layout) {
-    this.layout = layout;
   }
 
   public
@@ -48,10 +47,6 @@ public class NullAppender extends AppenderSkeleton {
 
   public
   void doAppend(LoggingEvent event) {
-    if(layout != null) {
-      t = layout.format(event);
-      s = t;
-    }
   }
 
   public

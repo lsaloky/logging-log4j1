@@ -77,51 +77,36 @@ public class FilteredLogTableModel
   //--------------------------------------------------------------------------
 
   public void setLogRecordFilter(LogRecordFilter filter) {
-    _filter = filter;
   }
 
   public LogRecordFilter getLogRecordFilter() {
-    return _filter;
+    return null;
   }
 
   public String getColumnName(int i) {
-    return _colNames[i];
+    return "";
   }
 
   public int getColumnCount() {
-    return _colNames.length;
+    return 0;
   }
 
   public int getRowCount() {
-    return getFilteredRecords().size();
+    return 0;
   }
 
   public int getTotalRowCount() {
-    return _allRecords.size();
+    return 0;
   }
 
   public Object getValueAt(int row, int col) {
-    LogRecord record = getFilteredRecord(row);
-    return getColumn(col, record);
+    return null;
   }
 
   public void setMaxNumberOfLogRecords(int maxNumRecords) {
-    if (maxNumRecords > 0) {
-      _maxNumberOfLogRecords = maxNumRecords;
-    }
-
   }
 
-  public synchronized boolean addLogRecord(LogRecord record) {
-
-    _allRecords.add(record);
-
-    if (_filter.passes(record) == false) {
-      return false;
-    }
-    getFilteredRecords().add(record);
-    fireTableRowsInserted(getRowCount(), getRowCount());
-    trimRecords();
+  public boolean addLogRecord(LogRecord record) {
     return true;
   }
 
@@ -129,24 +114,17 @@ public class FilteredLogTableModel
    * Forces the LogTableModel to requery its filters to determine
    * which records to display.
    */
-  public synchronized void refresh() {
-    _filteredRecords = createFilteredRecordsList();
-    fireTableDataChanged();
+  public void refresh() {
   }
 
-  public synchronized void fastRefresh() {
-    _filteredRecords.remove(0);
-    fireTableRowsDeleted(0, 0);
+  public void fastRefresh() {
   }
 
 
   /**
    * Clears all records from the LogTableModel
    */
-  public synchronized void clear() {
-    _allRecords.clear();
-    _filteredRecords.clear();
-    fireTableDataChanged();
+  public void clear() {
   }
 
   //--------------------------------------------------------------------------
@@ -154,67 +132,19 @@ public class FilteredLogTableModel
   //--------------------------------------------------------------------------
 
   protected List getFilteredRecords() {
-    if (_filteredRecords == null) {
-      refresh();
-    }
-    return _filteredRecords;
+    return null;
   }
 
   protected List createFilteredRecordsList() {
-    List result = new ArrayList();
-    Iterator records = _allRecords.iterator();
-    LogRecord current;
-    while (records.hasNext()) {
-      current = (LogRecord) records.next();
-      if (_filter.passes(current)) {
-        result.add(current);
-      }
-    }
-    return result;
+    return null;
   }
 
   protected LogRecord getFilteredRecord(int row) {
-    List records = getFilteredRecords();
-    int size = records.size();
-    if (row < size) {
-      return (LogRecord) records.get(row);
-    }
-    // a minor problem has happened. JTable has asked for
-    // a row outside the bounds, because the size of
-    // _filteredRecords has changed while it was looping.
-    // return the last row.
-    return (LogRecord) records.get(size - 1);
-
+    return null;
   }
 
   protected Object getColumn(int col, LogRecord lr) {
-    if (lr == null) {
-      return "NULL Column";
-    }
-    String date = new Date(lr.getMillis()).toString();
-    switch (col) {
-      case 0:
-        return date + " (" + lr.getMillis() + ")";
-      case 1:
-        return lr.getThreadDescription();
-      case 2:
-        return new Long(lr.getSequenceNumber());
-      case 3:
-        return lr.getLevel();
-      case 4:
-        return lr.getNDC();
-      case 5:
-        return lr.getCategory();
-      case 6:
-        return lr.getMessage();
-      case 7:
-        return lr.getLocation();
-      case 8:
-        return lr.getThrownStackTrace();
-      default:
-        String message = "The column number " + col + "must be between 0 and 8";
-        throw new IllegalArgumentException(message);
-    }
+    return null;
   }
 
   // We don't want the amount of rows to grow without bound,
@@ -224,36 +154,20 @@ public class FilteredLogTableModel
   // This method & clearLogRecords() are synchronized so we don't
   // delete rows that don't exist.
   protected void trimRecords() {
-    if (needsTrimming()) {
-      trimOldestRecords();
-    }
   }
 
   protected boolean needsTrimming() {
-    return (_allRecords.size() > _maxNumberOfLogRecords);
+    return false;
   }
 
   protected void trimOldestRecords() {
-    synchronized (_allRecords) {
-      int trim = numberOfRecordsToTrim();
-      if (trim > 1) {
-        List oldRecords =
-            _allRecords.subList(0, trim);
-        oldRecords.clear();
-        refresh();
-      } else {
-        _allRecords.remove(0);
-        fastRefresh();
-      }
-    }
-
   }
 
   //--------------------------------------------------------------------------
   //   Private Methods:
   //--------------------------------------------------------------------------
   private int numberOfRecordsToTrim() {
-    return _allRecords.size() - _maxNumberOfLogRecords;
+    return 0;
   }
 
   //--------------------------------------------------------------------------

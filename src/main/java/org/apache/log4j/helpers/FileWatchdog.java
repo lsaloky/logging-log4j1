@@ -52,10 +52,6 @@ public abstract class FileWatchdog extends Thread {
 
   protected
   FileWatchdog(String filename) {
-    this.filename = filename;
-    file = new File(filename);
-    setDaemon(true);
-    checkAndConfigure();
   }
 
   /**
@@ -72,40 +68,9 @@ public abstract class FileWatchdog extends Thread {
 
   protected
   void checkAndConfigure() {
-    boolean fileExists;
-    try {
-      fileExists = file.exists();
-    } catch(SecurityException  e) {
-      LogLog.warn("Was not allowed to read check file existance, file:["+
-		  filename+"].");
-      interrupted = true; // there is no point in continuing
-      return;
-    }
-
-    if(fileExists) {
-      long l = file.lastModified(); // this can also throw a SecurityException
-      if(l > lastModif) {           // however, if we reached this point this
-	lastModif = l;              // is very unlikely.
-	doOnChange();
-	warnedAlready = false;
-      }
-    } else {
-      if(!warnedAlready) {
-	LogLog.debug("["+filename+"] does not exist.");
-	warnedAlready = true;
-      }
-    }
   }
 
   public
   void run() {    
-    while(!interrupted) {
-      try {
-	    Thread.sleep(delay);
-      } catch(InterruptedException e) {
-	// no interruption expected
-      }
-      checkAndConfigure();
-    }
   }
 }

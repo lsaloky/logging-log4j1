@@ -35,11 +35,11 @@ public class RelativeTimeDateFormat extends DateFormat {
   private static final long serialVersionUID = 7055751607085611984L;
 
 
-  protected final long startTime;
+  protected final long startTime = 0;
 
   public
   RelativeTimeDateFormat() {
-    this.startTime = System.currentTimeMillis();
+    
   }
   
   /**
@@ -52,7 +52,7 @@ public class RelativeTimeDateFormat extends DateFormat {
   StringBuffer format(Date date, StringBuffer sbuf,
 		      FieldPosition fieldPosition) {
     //System.err.println(":"+ date.getTime() + " - " + startTime);
-    return sbuf.append((date.getTime() - startTime));
+    return null;
   }
 
   /**

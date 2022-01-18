@@ -49,7 +49,6 @@ public class CategoryExplorerLogRecordFilter implements LogRecordFilter {
   //--------------------------------------------------------------------------
 
   public CategoryExplorerLogRecordFilter(CategoryExplorerModel model) {
-    _model = model;
   }
 
   //--------------------------------------------------------------------------
@@ -63,15 +62,13 @@ public class CategoryExplorerLogRecordFilter implements LogRecordFilter {
    * if the CategoryPath is new.
    */
   public boolean passes(LogRecord record) {
-    CategoryPath path = new CategoryPath(record.getCategory());
-    return _model.isCategoryPathActive(path);
+    return false;
   }
 
   /**
    * Resets the counters for the contained CategoryNodes to zero.
    */
   public void reset() {
-    resetAllNodes();
   }
 
   //--------------------------------------------------------------------------
@@ -79,13 +76,6 @@ public class CategoryExplorerLogRecordFilter implements LogRecordFilter {
   //--------------------------------------------------------------------------
 
   protected void resetAllNodes() {
-    Enumeration nodes = _model.getRootCategoryNode().depthFirstEnumeration();
-    CategoryNode current;
-    while (nodes.hasMoreElements()) {
-      current = (CategoryNode) nodes.nextElement();
-      current.resetNumberOfContainedRecords();
-      _model.nodeChanged(current);
-    }
   }
   //--------------------------------------------------------------------------
   //   Private Methods:

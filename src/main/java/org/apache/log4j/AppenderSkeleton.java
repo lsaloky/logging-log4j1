@@ -17,13 +17,11 @@
 
 package org.apache.log4j;
 
-import org.apache.log4j.Layout;
 import org.apache.log4j.spi.Filter;
 import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.OptionHandler;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.helpers.OnlyOnceErrorHandler;
-import org.apache.log4j.helpers.LogLog;
 
 
 /** 
@@ -100,12 +98,6 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
    */
   public
   void addFilter(Filter newFilter) {
-    if(headFilter == null) {
-      headFilter = tailFilter = newFilter;
-    } else {
-      tailFilter.setNext(newFilter);
-      tailFilter = newFilter;    
-    }
   }
 
   /**
@@ -126,7 +118,6 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
      @since 0.9.0 */
   public
   void clearFilters() {
-    headFilter = tailFilter = null;
   }
 
   /**
@@ -136,13 +127,6 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
      @since 0.8.4 */
   public
   void finalize() {
-    // An appender might be closed then garbage collected. There is no
-    // point in closing twice.
-    if(this.closed) 
-      return;
-
-    LogLog.debug("Finalizing appender named ["+name+"].");
-    close();
   }
 
 
@@ -153,7 +137,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
       @since 0.9.0 */
   public
   ErrorHandler getErrorHandler() {
-    return this.errorHandler;
+    return null;
   }
 
 
@@ -164,7 +148,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
   */
   public
   Filter getFilter() {
-    return headFilter;
+    return null;
   }
 
   /** 
@@ -176,7 +160,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
   public
   final
   Filter getFirstFilter() {
-    return headFilter;
+    return null;
   }
 
   /**
@@ -184,7 +168,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
   */
   public
   Layout getLayout() {
-    return layout;
+    return null;
   }
 
 
@@ -194,7 +178,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
   public
   final
   String getName() {
-    return this.name;
+    return "";
   }
 
   /**
@@ -204,7 +188,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
      @since 1.1 */
   public
   Priority getThreshold() {
-    return threshold;
+    return null;
   }
 
 
@@ -216,7 +200,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
   */
   public
   boolean isAsSevereAsThreshold(Priority priority) {
-    return ((threshold == null) || priority.isGreaterOrEqual(threshold));
+    return false;
   }
 
 
@@ -226,29 +210,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
     * AppenderSkeleton#append} method.
     * */
   public
-  synchronized 
   void doAppend(LoggingEvent event) {
-    if(closed) {
-      LogLog.error("Attempted to append to closed appender named ["+name+"].");
-      return;
-    }
-    
-    if(!isAsSevereAsThreshold(event.getLevel())) {
-      return;
-    }
-
-    Filter f = this.headFilter;
-    
-    FILTER_LOOP:
-    while(f != null) {
-      switch(f.decide(event)) {
-      case Filter.DENY: return;
-      case Filter.ACCEPT: break FILTER_LOOP;
-      case Filter.NEUTRAL: f = f.getNext();
-      }
-    }
-    
-    this.append(event);    
   }
 
   /** 
@@ -256,15 +218,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
       @since 0.9.0
   */
   public
-  synchronized
   void setErrorHandler(ErrorHandler eh) {
-    if(eh == null) {
-      // We do not throw exception here since the cause is probably a
-      // bad config file.
-      LogLog.warn("You have tried to set a null error-handler.");
-    } else {
-      this.errorHandler = eh;
-    }
   }
 
   /**
@@ -275,7 +229,6 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
   */
   public
   void setLayout(Layout layout) {
-    this.layout = layout;
   }
 
   
@@ -284,7 +237,6 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
    */
   public
   void setName(String name) {
-    this.name = name;
   }
 
 
@@ -299,6 +251,5 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
      @since 0.8.3 */
   public
   void setThreshold(Priority threshold) {
-    this.threshold = threshold;
   }  
 }

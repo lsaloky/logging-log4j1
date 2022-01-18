@@ -17,13 +17,9 @@
 
 package org.apache.log4j.lf5;
 
-import org.apache.log4j.lf5.util.Resource;
-import org.apache.log4j.lf5.viewer.LogBrokerMonitor;
 import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.spi.LocationInfo;
+import org.apache.log4j.lf5.viewer.LogBrokerMonitor;
 import org.apache.log4j.spi.LoggingEvent;
-
-import java.awt.*;
 
 /**
  * <code>LF5Appender</code> logs events to a swing based logging
@@ -66,7 +62,6 @@ public class LF5Appender extends AppenderSkeleton {
    * windows.
    */
   public LF5Appender() {
-    this(getDefaultInstance());
   }
 
   /**
@@ -79,10 +74,6 @@ public class LF5Appender extends AppenderSkeleton {
    * created by the user.
    */
   public LF5Appender(LogBrokerMonitor monitor) {
-
-    if (monitor != null) {
-      _logMonitor = monitor;
-    }
   }
 
   //--------------------------------------------------------------------------
@@ -96,45 +87,6 @@ public class LF5Appender extends AppenderSkeleton {
    * to be appended.
    */
   public void append(LoggingEvent event) {
-    // Retrieve the information from the log4j LoggingEvent.
-    String category = event.getLoggerName();
-    String logMessage = event.getRenderedMessage();
-    String nestedDiagnosticContext = event.getNDC();
-    String threadDescription = event.getThreadName();
-    String level = event.getLevel().toString();
-    long time = event.timeStamp;
-    LocationInfo locationInfo = event.getLocationInformation();
-
-    // Add the logging event information to a LogRecord
-    Log4JLogRecord record = new Log4JLogRecord();
-
-    record.setCategory(category);
-    record.setMessage(logMessage);
-    record.setLocation(locationInfo.fullInfo);
-    record.setMillis(time);
-    record.setThreadDescription(threadDescription);
-
-    if (nestedDiagnosticContext != null) {
-      record.setNDC(nestedDiagnosticContext);
-    } else {
-      record.setNDC("");
-    }
-
-    if (event.getThrowableInformation() != null) {
-      record.setThrownStackTrace(event.getThrowableInformation());
-    }
-
-    try {
-      record.setLevel(LogLevel.valueOf(level));
-    } catch (LogLevelFormatException e) {
-      // If the priority level doesn't match one of the predefined
-      // log levels, then set the level to warning.
-      record.setLevel(LogLevel.WARN);
-    }
-
-    if (_logMonitor != null) {
-      _logMonitor.addMessage(record);
-    }
   }
 
   /**
@@ -167,29 +119,13 @@ public class LF5Appender extends AppenderSkeleton {
    * to call System.exit(0) when closing the log window.
    */
   public void setCallSystemExitOnClose(boolean callSystemExitOnClose) {
-    _logMonitor.setCallSystemExitOnClose(callSystemExitOnClose);
-  }
-
-  /**
-   * The equals method compares two LF5Appenders and determines whether
-   * they are equal. Two <code>Appenders</code> will be considered equal
-   * if, and only if, they both contain references to the same <code>
-   * LogBrokerMonitor</code>.
-   *
-   * @param compareTo A boolean value indicating whether
-   * the two LF5Appenders are equal.
-   */
-  public boolean equals(LF5Appender compareTo) {
-    // If both reference the same LogBrokerMonitor, they are equal.
-    return _logMonitor == compareTo.getLogBrokerMonitor();
   }
 
   public LogBrokerMonitor getLogBrokerMonitor() {
-    return _logMonitor;
+    return null;
   }
 
   public static void main(String[] args) {
-    new LF5Appender();
   }
 
   public void setMaxNumberOfRecords(int maxNumberOfRecords) {
@@ -202,24 +138,8 @@ public class LF5Appender extends AppenderSkeleton {
   /**
    * @return The default instance of the <code>LogBrokerMonitor</code>.
    */
-  protected static synchronized LogBrokerMonitor getDefaultInstance() {
-    if (_defaultLogMonitor == null) {
-      try {
-        _defaultLogMonitor =
-            new LogBrokerMonitor(LogLevel.getLog4JLevels());
-        _finalizer = new AppenderFinalizer(_defaultLogMonitor);
-
-        _defaultLogMonitor.setFrameSize(getDefaultMonitorWidth(),
-            getDefaultMonitorHeight());
-        _defaultLogMonitor.setFontSize(12);
-        _defaultLogMonitor.show();
-
-      } catch (SecurityException e) {
-        _defaultLogMonitor = null;
-      }
-    }
-
-    return _defaultLogMonitor;
+  protected static LogBrokerMonitor getDefaultInstance() {
+    return null;
   }
 
   /**
@@ -228,11 +148,7 @@ public class LF5Appender extends AppenderSkeleton {
    * @see java.awt.Toolkit
    */
   protected static int getScreenWidth() {
-    try {
-      return Toolkit.getDefaultToolkit().getScreenSize().width;
-    } catch (Throwable t) {
-      return 800;
-    }
+    return 0;
   }
 
   /**
@@ -241,19 +157,15 @@ public class LF5Appender extends AppenderSkeleton {
    * @see java.awt.Toolkit
    */
   protected static int getScreenHeight() {
-    try {
-      return Toolkit.getDefaultToolkit().getScreenSize().height;
-    } catch (Throwable t) {
-      return 600;
-    }
+    return 0;
   }
 
   protected static int getDefaultMonitorWidth() {
-    return (3 * getScreenWidth()) / 4;
+    return 0;
   }
 
   protected static int getDefaultMonitorHeight() {
-    return (3 * getScreenHeight()) / 4;
+    return 0;
   }
   //--------------------------------------------------------------------------
   // Private Methods:

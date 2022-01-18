@@ -48,7 +48,6 @@ public class CategoryElement {
   }
 
   public CategoryElement(String title) {
-    _categoryTitle = title;
   }
 
   //--------------------------------------------------------------------------
@@ -56,11 +55,10 @@ public class CategoryElement {
   //--------------------------------------------------------------------------
 
   public String getTitle() {
-    return (_categoryTitle);
+    return "";
   }
 
   public void setTitle(String title) {
-    _categoryTitle = title;
   }
 
   //--------------------------------------------------------------------------

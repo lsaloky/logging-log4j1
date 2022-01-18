@@ -63,23 +63,7 @@ public class LogTableRowRenderer extends DefaultTableCellRenderer {
       boolean hasFocus,
       int row,
       int col) {
-
-    if ((row % 2) == 0) {
-      setBackground(_color);
-    } else {
-      setBackground(Color.white);
-    }
-
-    FilteredLogTableModel model = (FilteredLogTableModel) table.getModel();
-    LogRecord record = model.getFilteredRecord(row);
-
-    setForeground(getLogLevelColor(record.getLevel()));
-
-    return (super.getTableCellRendererComponent(table,
-        value,
-        isSelected,
-        hasFocus,
-        row, col));
+    return null;
   }
 
 
@@ -87,7 +71,7 @@ public class LogTableRowRenderer extends DefaultTableCellRenderer {
   //   Protected Methods:
   //--------------------------------------------------------------------------
   protected Color getLogLevelColor(LogLevel level) {
-    return (Color) LogLevel.getLogLevelColorMap().get(level);
+    return null;
   }
 
   //--------------------------------------------------------------------------
@@ -99,9 +83,3 @@ public class LogTableRowRenderer extends DefaultTableCellRenderer {
   //--------------------------------------------------------------------------
 
 }
-
-
-
-
-
-

@@ -64,14 +64,7 @@ public class Log4JLogRecord extends LogRecord {
    * @return true if the log level is ERROR or FATAL.
    */
   public boolean isSevereLevel() {
-    boolean isSevere = false;
-
-    if (LogLevel.ERROR.equals(getLevel()) ||
-        LogLevel.FATAL.equals(getLevel())) {
-      isSevere = true;
-    }
-
-    return isSevere;
+    return false;
   }
 
   /**
@@ -85,17 +78,6 @@ public class Log4JLogRecord extends LogRecord {
    * @see #getThrownStackTrace()
    */
   public void setThrownStackTrace(ThrowableInformation throwableInfo) {
-    String[] stackTraceArray = throwableInfo.getThrowableStrRep();
-
-    StringBuffer stackTrace = new StringBuffer();
-    String nextLine;
-
-    for (int i = 0; i < stackTraceArray.length; i++) {
-      nextLine = stackTraceArray[i] + "\n";
-      stackTrace.append(nextLine);
-    }
-
-    _thrownStackTrace = stackTrace.toString();
   }
 
   //--------------------------------------------------------------------------

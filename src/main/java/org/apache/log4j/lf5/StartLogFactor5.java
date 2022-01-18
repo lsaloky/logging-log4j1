@@ -53,15 +53,6 @@ public class StartLogFactor5 {
    * the console settings.
    */
   public final static void main(String[] args) {
-
-    LogBrokerMonitor monitor = new LogBrokerMonitor(
-        LogLevel.getLog4JLevels());
-
-    monitor.setFrameSize(LF5Appender.getDefaultMonitorWidth(),
-        LF5Appender.getDefaultMonitorHeight());
-    monitor.setFontSize(12);
-    monitor.show();
-
   }
 
   //--------------------------------------------------------------------------
